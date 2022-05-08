@@ -110,7 +110,7 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 ## 相关链接
 
 - React官方文档：https://react.docschina.org/
-- React(hooks)：https://react.docschina.org/docs/hooks-intro.html
+- React(hooks)：https://react.docschina.org/docs/hooks-intro.html | https://beta.reactjs.org/
 - react-router：https://reactrouter.com/docs/en/v6/getting-started/tutorial
 - typescript：[TypeScript入门](https://ex4tjk8ii1.feishu.cn/docs/doccnE8fHbzDEgJNptmhz0suFZe)
 - create-react-app：https://create-react-app.dev/docs/getting-started
