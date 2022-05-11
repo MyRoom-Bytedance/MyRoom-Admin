@@ -1,6 +1,7 @@
-import ProForm, { ProFormDigit, ProFormDigitRange, ProFormSelect, ProFormSwitch, ProFormText, ProFormTimePicker, ProFormUploadButton } from "@ant-design/pro-form";
+import ProForm, { ProFormDigit, ProFormSelect, ProFormSwitch, ProFormText, ProFormTimePicker, ProFormUploadButton, ProFormSlider } from "@ant-design/pro-form";
 import React, { FC } from "react";
 import { Input } from "antd";
+import { ImageChanger } from "./ImageChanger";
 
 type Props = {
     position: Prop<ValueType>[],
@@ -11,23 +12,66 @@ type RenderMap = { [key in ValueType]: (prop: Prop<key>) => JSX.Element };
 
 const editorRenderMap: RenderMap = {
     string: (prop) =>
-        <ProFormText key={prop.label} name={prop.label} label={prop.label} disabled={prop.disabled} />,
+        <ProFormText
+            key={prop.label}
+            name={prop.label}
+            label={prop.label}
+            disabled={prop.disabled}
+        />,
     number: (prop) =>
-        <ProFormDigit key={prop.label} name={prop.label} label={prop.label} disabled={prop.disabled} />,
+        <ProFormDigit
+            key={prop.label}
+            name={prop.label}
+            label={prop.label}
+            disabled={prop.disabled}
+        />,
     upload: (prop) =>
-        <ProFormUploadButton key={prop.label} name={prop.label} label={prop.label} disabled={prop.disabled} />,
+        <ProForm.Item
+            key={prop.label}
+            name={prop.label}
+            label={prop.label}
+        >
+            <ImageChanger />
+        </ProForm.Item>,
     select: (prop) =>
-        <ProFormSelect key={prop.label} name={prop.label} label={prop.label} options={prop.options} disabled={prop.disabled} />,
+        <ProFormSelect
+            key={prop.label}
+            name={prop.label}
+            label={prop.label}
+            options={prop.options}
+            disabled={prop.disabled}
+        />,
     switch: (prop) =>
-        <ProFormSwitch key={prop.label} name={prop.label} label={prop.label} disabled={prop.disabled} />,
+        <ProFormSwitch
+            key={prop.label}
+            name={prop.label}
+            label={prop.label}
+            disabled={prop.disabled}
+        />,
     color: (prop) =>
-        <ProForm.Item key={prop.label} name={prop.label} label={prop.label}>
+        <ProForm.Item
+            key={prop.label}
+            name={prop.label}
+            label={prop.label}
+        >
             <Input type='color' disabled={prop.disabled} />
         </ProForm.Item>,
     time: (prop) =>
-        <ProFormTimePicker key={prop.label} name={prop.label} label={prop.label} disabled={prop.disabled} />,
+        <ProFormTimePicker
+            key={prop.label}
+            name={prop.label}
+            label={prop.label}
+            disabled={prop.disabled}
+        />,
     range: (prop) =>
-        <ProFormDigitRange key={prop.label} name={prop.label} label={prop.label} disabled={prop.disabled} />,
+        <ProFormSlider
+            key={prop.label}
+            name={prop.label}
+            label={prop.label}
+            disabled={prop.disabled}
+            min={prop.min}
+            max={prop.max}
+        />,
 }
 
 const preCheck = (props: Prop<ValueType>[]) => {
