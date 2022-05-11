@@ -4,11 +4,12 @@
 interface BaseProp<T extends ValueType> {
     type: T,
     label: string,
+    isCSSProp?: boolean,
     disabled?: boolean,
 }
 
 /**
- * 不同类型组件独有的属性
+ * 不同类型Prop独有的属性
  */
 interface SelectProp extends BaseProp<'select'> {
     value: string,
