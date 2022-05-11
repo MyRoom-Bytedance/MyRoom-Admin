@@ -71,8 +71,10 @@ const project: Project = {
                     options: ['水平', '垂直']
                 }, {
                     label: '间距',
-                    type: 'number',
-                    value: 6
+                    type: 'range',
+                    value: 6,
+                    min: 0,
+                    max: 100
                 }
             ],
             children: [
@@ -114,8 +116,8 @@ export const ProjectEditor = React.memo(() => {
 
     console.log(project.components[0].props);
 
-    return <>
+    return <> 
         <h1>Project Editor</h1>
-        <PropsEditor position={position} props={project.components[2].props} />
+        <PropsEditor position={position} props={project.components[1].props} />
     </>
 });
