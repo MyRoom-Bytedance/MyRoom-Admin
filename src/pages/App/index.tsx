@@ -38,7 +38,7 @@ export const App = React.memo(() => {
                             MyRoom
                         </Breadcrumb.Item>
                         <Breadcrumb.Item>
-                            {menuItems.find(item => item.key === location.pathname)?.label}
+                            {menuItems.find(item => location.pathname.startsWith(item.key.toString()))?.label}
                         </Breadcrumb.Item>
                     </Breadcrumb>
                     <Content className='content'>
@@ -59,7 +59,11 @@ const menuItems: MenuItemType[] = [
         label: '项目列表'
     }, {
         key: '/admin/user',
-        label: '个人信息'
+        label: '个人信息',
+    }, {
+        key: '/admin/project/editor',
+        label: '项目编辑',
+        style: { display: 'none' },
     }
 ]
 
