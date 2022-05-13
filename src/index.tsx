@@ -7,23 +7,23 @@ import { Provider } from 'react-redux';
 import { persistor, store } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { FallbackLoading } from './components/FallbackLoading';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 const Index = () => {
-    return <Suspense fallback={<FallbackLoading />}>
-        {useRoutes(routeConfig)}
-    </Suspense>
-}
+    return <Suspense fallback={<FallbackLoading />}>{useRoutes(routeConfig)}</Suspense>;
+};
 
 // 使用ReactDOM.createRoot开启Fiber架构的Concurrent Mode
-const root = ReactDOM.createRoot(
-    document.getElementById('root') as HTMLElement
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
     <React.StrictMode>
         <BrowserRouter>
             <Provider store={store}>
                 <PersistGate persistor={persistor}>
-                    <Index />
+                    <DndProvider backend={HTML5Backend}>
+                        <Index />
+                    </DndProvider>
                 </PersistGate>
             </Provider>
         </BrowserRouter>

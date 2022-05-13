@@ -1,7 +1,7 @@
 /*
  * @Author: cos
  * @Date: 2022-05-11 18:32:51
- * @LastEditTime: 2022-05-11 21:54:47
+ * @LastEditTime: 2022-05-13 01:35:10
  * @LastEditors: cos
  * @Description: 左部组件面板
  * @FilePath: \MyRoom-Admin\src\lib\lowcode-editor\components\LeftPane\index.tsx
@@ -16,7 +16,7 @@ export const LeftPane = React.memo(({}: Props) => {
     return (
         <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
             基础组件
-            <Collapse defaultActiveKey={['1']}>
+            <Collapse defaultActiveKey={['通用']}>
                 <Panel header="通用" key="通用">
                     <Space wrap>
                         {materialList.map((item) => (

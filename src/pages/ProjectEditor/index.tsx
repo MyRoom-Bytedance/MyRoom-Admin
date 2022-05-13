@@ -125,8 +125,8 @@ export const ProjectEditor = React.memo(() => {
     console.log(project.components[0].props);
 
     return (
-        <Row>
-            <Col flex={2}>
+        <Row style={{ gap: 10 }}>
+            <Col flex={1}>
                 <h1>Project Material</h1>
                 <LeftPane />
             </Col>
