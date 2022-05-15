@@ -18,16 +18,6 @@ import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 type LoginType = 'account' | 'register';
 
-const iconStyles: CSSProperties = {
-    color: 'rgba(0, 0, 0, 0.2)',
-    fontSize: '18px',
-    verticalAlign: 'middle',
-    cursor: 'pointer',
-};
-
-/**
- * copy的官方的Login页，加了一些redux逻辑
- */
 export const Login = React.memo((props) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -53,7 +43,12 @@ export const Login = React.memo((props) => {
             <LoginFormPage
                 backgroundImageUrl="https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png"
                 title="MyRoom"
-                subTitle="经纪人登陆"
+                subTitle={(loginType === "account"? '经纪人登录' : '经纪人注册')}
+                submitter={{
+                    searchConfig:{
+                        submitText: loginType === "account"? '登录' : '注册'
+                    }
+                }}
                 activityConfig={{
                     style: {
                         boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.2)',
@@ -135,7 +130,7 @@ export const Login = React.memo((props) => {
                             rules={[
                                 {
                                     required: true,
-                                    message: '用户名',
+                                    message: '您用户名还未设置',
                                 }
                             ]}
                         />
@@ -145,15 +140,11 @@ export const Login = React.memo((props) => {
                                 prefix: <LockOutlined className={'prefixIcon'} />,
                             }}
                             name="account"
-                            placeholder={'请输入密码'}
+                            placeholder={'请设置密码'}
                             rules={[
                                 {
                                     required: true,
-                                    message: '用户名',
-                                },
-                                {
-                                    pattern: /^1\d{10}$/,
-                                    message: '手机号格式错误！',
+                                    message: '您密码还未设置',
                                 },
                             ]}
                         />
@@ -177,5 +168,4 @@ export const Login = React.memo((props) => {
 
 const LoginContainer = styled.div`
     height: 100%;
-    padding: 24px;
 `
