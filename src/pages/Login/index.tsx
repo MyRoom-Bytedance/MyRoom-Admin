@@ -10,8 +10,8 @@ import {
 import { message, Divider, Tabs, Space, Button } from 'antd';
 import type { CSSProperties } from 'react';
 import React, { useState } from 'react';
-import 'antd/dist/antd.css';
-import '@ant-design/pro-form/dist/form.css'
+import 'antd/dist/antd.min.css';
+import '@ant-design/pro-form/dist/form.css';
 import styled from 'styled-components';
 import { setUserCache } from 'redux/userSlice';
 import { useNavigate } from 'react-router';
@@ -37,11 +37,11 @@ export const Login = React.memo(() => {
     const handleLogin = async (loginType: string, form: Record<string, any>) => {
         console.log(loginType);
         console.log(form);
-        await new Promise(r => setTimeout(r, 1000));
+        await new Promise((r) => setTimeout(r, 1000));
         dispatch(setUserCache(form));
         message.success('登陆成功');
         navigate('/');
-    }
+    };
 
     return (
         <LoginContainer>
@@ -82,9 +82,7 @@ export const Login = React.memo(() => {
                         }}
                     >
                         <Divider plain>
-                            <span style={{ color: '#CCC', fontWeight: 'normal', fontSize: 14 }}>
-                                其他登录方式
-                            </span>
+                            <span style={{ color: '#CCC', fontWeight: 'normal', fontSize: 14 }}>其他登录方式</span>
                         </Divider>
                         <Space align="center" size={24}>
                             <div
@@ -242,4 +240,4 @@ export const Login = React.memo(() => {
 const LoginContainer = styled.div`
     height: 100%;
     padding: 24px;
-`
+`;
