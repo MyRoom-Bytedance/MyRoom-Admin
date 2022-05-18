@@ -10,8 +10,8 @@ import {
 import { message, Divider, Tabs, Space, Button } from 'antd';
 import type { CSSProperties } from 'react';
 import React, { useState } from 'react';
-import 'antd/dist/antd.css';
-import '@ant-design/pro-form/dist/form.css'
+import 'antd/dist/antd.min.css';
+import '@ant-design/pro-form/dist/form.css';
 import styled from 'styled-components';
 import { setUserCache } from 'redux/userSlice';
 import { useNavigate } from 'react-router';
@@ -43,6 +43,37 @@ export const Login = React.memo((props) => {
         message.success(`${loginType === 'account' ? '登录' : '注册'}成功`);
         setLoginType('account');
     }
+        console.log(loginType);
+        let data = {
+            password: '',
+            username: ''
+        }
+        // 账号密码登入
+        if (loginType == 'account') {
+            data.password = form?.password
+            data.username = form?.username
+            let res = await request({
+                url: '/user/login',
+                method: 'POST',
+                data
+            })
+            // 设置token值
+            localStorage.setItem('access_token', res.token)
+        } else { 
+            // 验证码登入 
+            let res = await request({
+                url: '/user/verifiy',
+                method: 'POST',
+                data:form
+            })
+            // 设置token值
+            console.log(res);
+            localStorage.setItem('access_token', res.token)
+        }
+        dispatch(setUserCache(form));
+        message.success('登陆成功');
+        navigate('/');
+    };
 
     return (
         <LoginContainer>
@@ -79,7 +110,6 @@ export const Login = React.memo((props) => {
                         </Button>
                     ),
                 }}
-
                 onFinish={handleLogin.bind(null, loginType)}
             >
                 {loginType === 'account' && (
