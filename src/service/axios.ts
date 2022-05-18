@@ -5,8 +5,9 @@ import ExecuteError from "util/executeError";
 // 设置全局axios默认值
 axios.defaults.timeout = 20000;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.headers.post['Authorization'] = `Bearer ${localStorage.getItem('access_token')}`;
 axios.defaults.withCredentials = false;
-axios.defaults.baseURL = 'http://localhost:8080/api';
+axios.defaults.baseURL = 'http://116.62.196.219:3000';
 
 const responseInterceptor = (resp: AxiosResponse<any, any>) => {
     // 请求状态不是200，直接抛出异常
