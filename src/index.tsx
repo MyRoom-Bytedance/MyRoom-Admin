@@ -7,8 +7,6 @@ import { Provider } from 'react-redux';
 import { persistor, store } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { FallbackLoading } from './components/FallbackLoading';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 
 const Index = () => {
     return <Suspense fallback={<FallbackLoading />}>{useRoutes(routeConfig)}</Suspense>;
@@ -21,9 +19,7 @@ root.render(
         <BrowserRouter>
             <Provider store={store}>
                 <PersistGate persistor={persistor}>
-                    <DndProvider backend={HTML5Backend}>
-                        <Index />
-                    </DndProvider>
+                    <Index />
                 </PersistGate>
             </Provider>
         </BrowserRouter>

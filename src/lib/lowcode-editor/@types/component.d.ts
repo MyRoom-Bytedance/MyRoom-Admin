@@ -14,7 +14,8 @@ interface BaseComponent {
     icon?: string; // 物料窗口组建的icon（可选，如undefined则用默认icon）
     positionType?: 'absolute' | 'relative' | 'unset'; // 不存在则默认为相对于画布的absolute
     position: PositionProps; // 位置属性
-    props: Prop[];
+    props: PropsObject;
+    editableProps: EditableProp[];
 }
 
 /**

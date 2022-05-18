@@ -1,8 +1,8 @@
 /*
  * @Author: cos
  * @Date: 2022-05-16 23:41:41
- * @LastEditTime: 2022-05-17 03:43:15
- * @LastEditors: cos
+ * @LastEditTime: 2022-05-18 23:11:26
+ * @LastEditors: TagBug 1242135295@qq.com
  * @Description: schema相关工具
  * @FilePath: \MyRoom-Admin\src\lib\lowcode-editor\utils\schemaUtil.ts
  */
@@ -18,7 +18,8 @@ export const getInstanceFromSchema = (schema: Component | string): Object | null
     let res: any = { styles: {}, body: null };
     const { props, ...args } = component;
     res = Object.assign(res, args);
-    for (const idx in props) {
+    // TODO: fix schema resolver
+    /* for (const idx in props) {
         const { type, value, isCSSProps = false } = props[idx];
         if (type === 'body') {
             res.body = value;
@@ -27,6 +28,6 @@ export const getInstanceFromSchema = (schema: Component | string): Object | null
         } else {
             res = Object.assign(res, { [type]: value });
         }
-    }
+    } */
     return res;
 };
