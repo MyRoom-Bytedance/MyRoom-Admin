@@ -12,7 +12,7 @@ export default class ExecuteError<T = Object> extends Error {
     constructor(msg: string, res?: ServerResJSON<T>) {
         super('' + msg);
         this.res = res;
-        this.status = res?.status;
+        this.status = res?.code;
     }
 
     valueOf() {

@@ -16,6 +16,7 @@ import styled from 'styled-components';
 import { setUserCache } from 'redux/userSlice';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
+import request from './../../service/axios';
 type LoginType = 'account' | 'register';
 
 export const Login = React.memo((props) => {
@@ -23,19 +24,24 @@ export const Login = React.memo((props) => {
     const dispatch = useDispatch();
     const [loginType, setLoginType] = useState<LoginType>('account');
 
-    function regisiter() {
+    function register() {
         setLoginType('register')
     }
     function backLogin() {
         setLoginType('account')
     }
     const handleLogin = async (loginType: string, form: Record<string, any>) => {
-        console.log(loginType);
-        console.log(form);
-        await new Promise(r => setTimeout(r, 1000));
-        dispatch(setUserCache(form));
-        message.success('登陆成功');
-        navigate('/');
+        await async function () {
+            return await request({
+                url: '/user/register',
+                method: 'post',
+                data: JSON.stringify(form)
+            }, (error) => {
+                console.log(error)
+            })
+        }();
+        message.success(`${loginType === 'account' ? '登录' : '注册'}成功`);
+        setLoginType('account');
     }
 
     return (
@@ -43,10 +49,10 @@ export const Login = React.memo((props) => {
             <LoginFormPage
                 backgroundImageUrl="https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png"
                 title="MyRoom"
-                subTitle={(loginType === "account"? '经纪人登录' : '经纪人注册')}
+                subTitle={(loginType === "account" ? '经纪人登录' : '经纪人注册')}
                 submitter={{
-                    searchConfig:{
-                        submitText: loginType === "account"? '登录' : '注册'
+                    searchConfig: {
+                        submitText: loginType === "account" ? '登录' : '注册'
                     }
                 }}
                 activityConfig={{
@@ -67,7 +73,7 @@ export const Login = React.memo((props) => {
                                 color: '#1677FF',
                                 width: 120,
                             }}
-                            onClick={regisiter}
+                            onClick={register}
                         >
                             即刻注册
                         </Button>
@@ -79,7 +85,7 @@ export const Login = React.memo((props) => {
                 {loginType === 'account' && (
                     <>
                         <ProFormText
-                            name="username"
+                            name="loginUsername"
                             fieldProps={{
                                 size: 'large',
                                 prefix: <UserOutlined className={'prefixIcon'} />,
@@ -93,7 +99,7 @@ export const Login = React.memo((props) => {
                             ]}
                         />
                         <ProFormText.Password
-                            name="password"
+                            name="loginPassword"
                             fieldProps={{
                                 size: 'large',
                                 prefix: <LockOutlined className={'prefixIcon'} />,
@@ -113,8 +119,8 @@ export const Login = React.memo((props) => {
                                 justifyContent: 'space-between'
                             }}
                         >
-                            <Button style={{padding: '0 0px'}} size="small" type="link" onClick={regisiter}>免费注册</Button>
-                            <Button style={{padding: '0 0px'}} size="small" type="text" >忘记密码</Button>
+                            <Button style={{ padding: '0 0px' }} size="small" type="link" onClick={register}>免费注册</Button>
+                            <Button style={{ padding: '0 0px' }} size="small" type="text" >忘记密码</Button>
                         </div>
                     </>
                 )}
@@ -125,7 +131,7 @@ export const Login = React.memo((props) => {
                                 size: 'large',
                                 prefix: <UserOutlined className={'prefixIcon'} />
                             }}
-                            name="account"
+                            name="username"
                             placeholder={'请设置用户名'}
                             rules={[
                                 {
@@ -139,7 +145,7 @@ export const Login = React.memo((props) => {
                                 size: 'large',
                                 prefix: <LockOutlined className={'prefixIcon'} />,
                             }}
-                            name="account"
+                            name="password"
                             placeholder={'请设置密码'}
                             rules={[
                                 {
@@ -154,7 +160,7 @@ export const Login = React.memo((props) => {
                             }}
                         >
                             <span>已有帐号？</span>
-                            <Button style={{padding: '0 0px'}} type="link" onClick={backLogin}>现在登录</Button>
+                            <Button style={{ padding: '0 0px' }} type="link" onClick={backLogin}>现在登录</Button>
                         </div>
 
 

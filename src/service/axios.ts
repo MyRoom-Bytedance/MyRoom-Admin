@@ -6,7 +6,7 @@ import ExecuteError from "util/executeError";
 axios.defaults.timeout = 20000;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.withCredentials = false;
-axios.defaults.baseURL = 'http://localhost:8080/api';
+axios.defaults.baseURL = 'http://localhost:8000';
 
 const responseInterceptor = (resp: AxiosResponse<any, any>) => {
     // 请求状态不是200，直接抛出异常
@@ -33,7 +33,7 @@ export default function request<T = Object>(option: AxiosRequestConfig<Object>, 
         .then(data => {
             let resJson = data as ServerResJSON<T>;
             // 业务处理结果不为200则抛出异常，注意200为数字类型
-            if (resJson.status !== 200) {
+            if (resJson.code === 403) {
                 throw new ExecuteError(resJson.msg, resJson);
             }
             return resJson;
