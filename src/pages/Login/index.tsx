@@ -3,12 +3,8 @@ import {
     UserOutlined,
     MobileOutlined,
     LockOutlined,
-    AlipayOutlined,
-    WeiboOutlined,
-    TaobaoOutlined,
 } from '@ant-design/icons';
-import { message, Divider, Tabs, Space, Button } from 'antd';
-import type { CSSProperties } from 'react';
+import { message, Tabs, Button } from 'antd';
 import React, { useState } from 'react';
 import 'antd/dist/antd.min.css';
 import '@ant-design/pro-form/dist/form.css';
@@ -17,9 +13,9 @@ import { setUserCache } from 'redux/userSlice';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import request from './../../service/axios';
-type LoginType = 'account' | 'register';
+type LoginType = 'account' | 'register' | 'phone';
 
-export const Login = React.memo((props) => {
+export const Login = React.memo(() => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [loginType, setLoginType] = useState<LoginType>('account');
@@ -31,25 +27,12 @@ export const Login = React.memo((props) => {
         setLoginType('account')
     }
     const handleLogin = async (loginType: string, form: Record<string, any>) => {
-        await async function () {
-            return await request({
-                url: '/user/register',
-                method: 'post',
-                data: JSON.stringify(form)
-            }, (error) => {
-                console.log(error)
-            })
-        }();
-        message.success(`${loginType === 'account' ? '登录' : '注册'}成功`);
-        setLoginType('account');
-    }
-        console.log(loginType);
         let data = {
             password: '',
             username: ''
         }
         // 账号密码登入
-        if (loginType == 'account') {
+        if (loginType === 'account') {
             data.password = form?.password
             data.username = form?.username
             let res = await request({
@@ -59,19 +42,26 @@ export const Login = React.memo((props) => {
             })
             // 设置token值
             localStorage.setItem('access_token', res.token)
-        } else { 
+        } else if (loginType === 'phone') {
             // 验证码登入 
             let res = await request({
                 url: '/user/verifiy',
                 method: 'POST',
-                data:form
+                data: form
             })
             // 设置token值
             console.log(res);
             localStorage.setItem('access_token', res.token)
-        }
+        } else {
+            let res = await request({
+                url: '/user/register',
+                method: 'POST',
+                data: JSON.stringify(form)
+            })
+        };
         dispatch(setUserCache(form));
-        message.success('登陆成功');
+        message.success(`${loginType !== 'register' ? '登录' : '注册'}成功`);
+        setLoginType('account');
         navigate('/');
     };
 
@@ -80,10 +70,10 @@ export const Login = React.memo((props) => {
             <LoginFormPage
                 backgroundImageUrl="https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png"
                 title="MyRoom"
-                subTitle={(loginType === "account" ? '经纪人登录' : '经纪人注册')}
+                subTitle={(loginType === 'register' ? '经纪人注册' : '经纪人登录')}
                 submitter={{
                     searchConfig: {
-                        submitText: loginType === "account" ? '登录' : '注册'
+                        submitText: loginType === 'register' ? '注册' : '登录'
                     }
                 }}
                 activityConfig={{
@@ -112,6 +102,13 @@ export const Login = React.memo((props) => {
                 }}
                 onFinish={handleLogin.bind(null, loginType)}
             >
+                {loginType !== 'register' &&
+                    <Tabs activeKey={loginType} onChange={(activeKey) => setLoginType(activeKey as LoginType)}>
+                        <Tabs.TabPane key={'account'} tab={'账号密码登录'} />
+                        <Tabs.TabPane key={'phone'} tab={'手机号登录'} />
+                    </Tabs>
+                }
+
                 {loginType === 'account' && (
                     <>
                         <ProFormText
@@ -194,6 +191,54 @@ export const Login = React.memo((props) => {
                         </div>
 
 
+                    </>
+                )}
+                {loginType === 'phone' && (
+                    <>
+                        <ProFormText
+                            fieldProps={{
+                                size: 'large',
+                                prefix: <MobileOutlined className={'prefixIcon'} />,
+                            }}
+                            name="mobile"
+                            placeholder={'手机号'}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: '请输入手机号！',
+                                },
+                                {
+                                    pattern: /^1\d{10}$/,
+                                    message: '手机号格式错误！',
+                                },
+                            ]}
+                        />
+                        <ProFormCaptcha
+                            fieldProps={{
+                                size: 'large',
+                                prefix: <LockOutlined className={'prefixIcon'} />,
+                            }}
+                            captchaProps={{
+                                size: 'large',
+                            }}
+                            placeholder={'请输入验证码'}
+                            captchaTextRender={(timing, count) => {
+                                if (timing) {
+                                    return `${count} ${'获取验证码'}`;
+                                }
+                                return '获取验证码';
+                            }}
+                            name="captcha"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: '请输入验证码！',
+                                },
+                            ]}
+                            onGetCaptcha={async () => {
+                                message.success('获取验证码成功！验证码为：1234');
+                            }}
+                        />
                     </>
                 )}
 
