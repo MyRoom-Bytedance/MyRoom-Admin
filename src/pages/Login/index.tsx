@@ -16,7 +16,7 @@ import styled from 'styled-components';
 import { setUserCache } from 'redux/userSlice';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
-
+import request from "../../service/axios"
 type LoginType = 'phone' | 'account';
 
 const iconStyles: CSSProperties = {
@@ -36,8 +36,32 @@ export const Login = React.memo(() => {
 
     const handleLogin = async (loginType: string, form: Record<string, any>) => {
         console.log(loginType);
-        console.log(form);
-        await new Promise((r) => setTimeout(r, 1000));
+        let data = {
+            password: '',
+            username: ''
+        }
+        // 账号密码登入
+        if (loginType == 'account') {
+            data.password = form?.password
+            data.username = form?.username
+            let res = await request({
+                url: '/user/login',
+                method: 'POST',
+                data
+            })
+            // 设置token值
+            localStorage.setItem('access_token', res.token)
+        } else { 
+            // 验证码登入 
+            let res = await request({
+                url: '/user/verifiy',
+                method: 'POST',
+                data:form
+            })
+            // 设置token值
+            console.log(res);
+            localStorage.setItem('access_token', res.token)
+        }
         dispatch(setUserCache(form));
         message.success('登陆成功');
         navigate('/');
