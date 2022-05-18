@@ -1,7 +1,7 @@
 /*
  * @Author: cos
  * @Date: 2022-05-11 18:32:51
- * @LastEditTime: 2022-05-13 01:35:10
+ * @LastEditTime: 2022-05-19 00:13:08
  * @LastEditors: cos
  * @Description: 左部组件面板
  * @FilePath: \MyRoom-Admin\src\lib\lowcode-editor\components\LeftPane\index.tsx
@@ -19,9 +19,10 @@ export const LeftPane = React.memo(({}: Props) => {
             <Collapse defaultActiveKey={['通用']}>
                 <Panel header="通用" key="通用">
                     <Space wrap>
-                        {materialList.map((item) => (
-                            <Material attr={item} key={item.id} />
-                        ))}
+                        {materialList.map((item) => {
+                            const { id, ...props } = item;
+                            return <Material {...props} key={id} />;
+                        })}
                     </Space>
                 </Panel>
                 <Panel header="布局" key="布局"></Panel>

@@ -6,7 +6,7 @@ type EditableValueType = 'string' | 'number' | 'upload' | 'select' | 'switch' | 
 /**
  * 组件类型
  */
-type ComponentType = 'Text' | 'Video' | 'Image' | 'Audio' | 'HouseCard' | 'Layout';
+type ComponentType = 'Text' | 'Video' | 'Image' | 'Audio' | 'HouseCard' | 'Layout' | 'Flex';
 
 /**
  * Props对象的定义

@@ -1,7 +1,7 @@
 /*
  * @Author: cos
  * @Date: 2022-05-17 02:13:34
- * @LastEditTime: 2022-05-17 02:40:24
+ * @LastEditTime: 2022-05-19 02:05:04
  * @LastEditors: cos
  * @Description: schema实例类型
  * @FilePath: \MyRoom-Admin\src\lib\lowcode-editor\@types\instance.d.ts

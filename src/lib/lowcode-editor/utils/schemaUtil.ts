@@ -1,17 +1,17 @@
 /*
  * @Author: cos
  * @Date: 2022-05-16 23:41:41
- * @LastEditTime: 2022-05-18 23:11:26
- * @LastEditors: TagBug 1242135295@qq.com
+ * @LastEditTime: 2022-05-19 01:08:43
+ * @LastEditors: cos
  * @Description: schema相关工具
  * @FilePath: \MyRoom-Admin\src\lib\lowcode-editor\utils\schemaUtil.ts
  */
 import { parseJSON } from '.';
 
-export const getInstanceFromSchema = (schema: Component | string): Object | null => {
-    let component: Component | null = null; //
+export const getInstanceFromSchema = (schema: any | string): Object | null => {
+    let component: any | null = null; //
     if (typeof schema === 'string') {
-        component = parseJSON(schema) as Component;
+        component = parseJSON(schema) as any;
     }
     if (!component) return null;
 
