@@ -3,7 +3,7 @@ import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 export type UserState = {
-    userCache: User | null,
+    userCache: UserBaseInfo | null,
 }
 
 // 使用Redux Toolkit简化逻辑，详见 https://redux-toolkit.js.org/tutorials/quick-start

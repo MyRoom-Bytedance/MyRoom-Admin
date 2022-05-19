@@ -16,7 +16,7 @@ import styled from 'styled-components';
 import { setUserCache } from 'redux/userSlice';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
-import request from "../../service/axios"
+import { UserLogin, UserVerifyLogin } from 'service/user';
 type LoginType = 'phone' | 'account';
 
 const iconStyles: CSSProperties = {
@@ -36,35 +36,26 @@ export const Login = React.memo(() => {
 
     const handleLogin = async (loginType: string, form: Record<string, any>) => {
         console.log(loginType);
-        let data = {
-            password: '',
-            username: ''
-        }
-        // 账号密码登入
-        if (loginType == 'account') {
-            data.password = form?.password
-            data.username = form?.username
-            let res = await request({
-                url: '/user/login',
-                method: 'POST',
-                data
-            })
-            // 设置token值
-            localStorage.setItem('access_token', res.token)
-        } else { 
-            // 验证码登入 
-            let res = await request({
-                url: '/user/verifiy',
-                method: 'POST',
-                data:form
-            })
-            // 设置token值
-            console.log(res);
-            localStorage.setItem('access_token', res.token)
-        }
-        dispatch(setUserCache(form));
-        message.success('登陆成功');
-        navigate('/');
+        let user: UserBaseInfo | undefined = undefined;
+        try {
+            if (loginType == 'account') {
+                // 账号密码登入
+                user = (await UserLogin({
+                    username: form.username,
+                    password: form.password,
+                })).data;
+            } else {
+                // 验证码登入
+                user = (await UserVerifyLogin({
+                    mobile: form.mobile,
+                    captcha: form.captcha,
+                })).data;
+            }
+            // 使用redux记录 userInfo （token在userInfo中）
+            dispatch(setUserCache(user));
+            message.success('登陆成功');
+            navigate('/');
+        } catch (e) { }
     };
 
     return (
