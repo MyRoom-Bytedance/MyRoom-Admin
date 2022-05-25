@@ -1,12 +1,14 @@
 /*
  * @Author: cos
  * @Date: 2022-05-17 02:13:34
- * @LastEditTime: 2022-05-19 02:03:25
+ * @LastEditTime: 2022-05-26 00:26:04
  * @LastEditors: cos
  * @Description: Flex布局组件
  * @FilePath: \MyRoom-Admin\src\lib\dynamic-components\Flex\index.tsx
  */
+import { getInstanceFromSchema } from 'lib/lowcode-editor/utils/schemaUtil';
 import styled, { CSSProperties } from 'styled-components';
+import { DynamicComponent } from '..';
 import { BaseInstance } from '../@types/instance';
 
 export type FlexHTMLProps = {
@@ -35,13 +37,9 @@ export const MyFlex = ({ styles, htmlProps, body }: FlexProps) => {
         <Flex style={styles} {...htmlProps}>
             {typeof body === 'string' && body}
             {Array.isArray(body) &&
-                body.map((item: any, index: number) => {
-                    const { id, type, body, ...props } = item;
-                    return (
-                        <div>
-                            我是子节点{id} 类型为{type} body为{body}
-                        </div>
-                    ); // 这里应该调用generateInstance生成实例然后根据实例调dyanamic-component
+                body.map((item: BaseInstance, index: number) => {
+                    if (!item) return null;
+                    return <DynamicComponent {...item} />;
                 })}
         </Flex>
     );

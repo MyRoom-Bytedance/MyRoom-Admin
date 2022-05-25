@@ -1,10 +1,10 @@
 /*
  * @Author: cos
  * @Date: 2022-05-17 02:50:16
- * @LastEditTime: 2022-05-17 03:40:13
+ * @LastEditTime: 2022-05-26 00:10:49
  * @LastEditors: cos
  * @Description: 测试工具函数
- * @FilePath: \MyRoom-Admin\src\lib\lowcode-editor\tests\util.test.ts
+ * @FilePath: \MyRoom-Admin\src\lib\lowcode-editor\utils\util.test.ts
  */
 import { parseJSON } from '../utils';
 import { getInstanceFromSchema } from '../utils/schemaUtil';
@@ -15,7 +15,7 @@ test('parseJSON', () => {
     expect(parseJSON('dawdawwa')).toBeNull();
 });
 test('getInstanceFromSchema', () => {
-    let ins = getInstanceFromSchema(`{
+    let ins1 = getInstanceFromSchema(`{
     "id": "text-1",
     "type": "Text",
     "name": "标题",
@@ -25,34 +25,54 @@ test('getInstanceFromSchema', () => {
         "width": 100,
         "height": 50
     },
-    "props": [
-        {
-            "label": "文字内容",
-            "type": "body",
-            "value": "我是一个标题"
-        },
-        {
-            "label": "文字颜色",
-            "type": "color",
-            "value": "#000",
-            "isCSSProps": true
-        }
-    ]
+    "props": {
+        "innerText": "我是一个标题",
+        "color": "#000"
+    }
 }`);
-    console.log('ins', ins);
-    expect(ins).toEqual({
+    console.log('ins1:', ins1);
+    expect(ins1).toEqual({
         id: 'text-1',
         type: 'Text',
-        name: '标题',
-        position: {
+        styles: {
+            position: 'absolute',
+            top: 10,
+            left: 10,
+            width: 100,
+            height: 50,
+            color: '#000',
+        },
+        body: '我是一个标题',
+        htmlProps: {},
+    });
+
+    let ins2 = getInstanceFromSchema(`{
+        "id": "image-1",
+        "type": "Image",
+        "name": "广告图片",
+        "positionType": "fixed",
+        "position": {
+            "top": 10,
+            "left": 10,
+            "width": 100,
+            "height": 50
+        },
+        "props": {
+            "src": "https://fastly.jsdelivr.net/gh/yusixian/imgBed/img/tx.jpg"
+        }
+    }`);
+    console.log('ins2:', ins2);
+    expect(ins2).toEqual({
+        id: 'image-1',
+        type: 'Image',
+        styles: {
+            position: 'fixed',
             top: 10,
             left: 10,
             width: 100,
             height: 50,
         },
-        styles: {
-            color: '#000',
-        },
-        body: '我是一个标题',
+        body: null,
+        htmlProps: { src: 'https://fastly.jsdelivr.net/gh/yusixian/imgBed/img/tx.jpg' },
     });
 });
