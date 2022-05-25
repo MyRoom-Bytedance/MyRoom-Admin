@@ -1,3 +1,5 @@
+import { getUUid } from '../utils';
+
 export const position = {
     top: 0,
     left: 0,
@@ -10,112 +12,134 @@ export const project: Project = {
     name: '测试工程',
     components: [
         {
-            id: '1',
+            id: getUUid(),
             type: 'Text',
             name: '标题',
-            position,
+            positionType: 'absolute',
+            position: {
+                top: 10,
+                left: 10,
+            },
             props: {
-                'innerText': '',
-                'color': '#000'
+                innerText: '我是中部预览面板',
+                color: '#000',
+                fontSize: 24, // TODO: add editableProps
             },
             editableProps: [
                 {
                     label: '文字内容',
                     type: 'string',
-                    value: '我是一个标题',
+                    value: '我是中部预览面板',
                     ref: 'innerText',
-                    valueAdaptor: v => `<b>${v}</b>`
+                    valueAdaptor: (v) => `<b>${v}</b>`,
                 },
                 {
                     label: '文字颜色',
                     type: 'color',
                     value: '#000',
-                    ref: 'color'
+                    ref: 'color',
                 },
             ],
         },
         {
-            id: '2',
+            id: getUUid(),
             type: 'Image',
-            name: '广告图片',
-            position,
+            name: '图片',
+            positionType: 'absolute',
+            position: {
+                top: 180,
+                left: 200,
+                width: 200,
+                height: 200,
+            },
             props: {
-                'src': 'http://rad9gvpiv.hd-bkt.clouddn.com/aede03222bfb78c3.jpg'
+                src: 'https://fastly.jsdelivr.net/gh/yusixian/imgBed/img/tx.jpg',
+                zIndex: 10, // TODO: add editableProps
             },
             editableProps: [
                 {
                     label: '图片上传',
                     type: 'upload',
-                    value: 'http://rad9gvpiv.hd-bkt.clouddn.com/aede03222bfb78c3.jpg',
-                    ref: 'src'
+                    value: 'https://fastly.jsdelivr.net/gh/yusixian/imgBed/img/tx.jpg',
+                    ref: 'src',
                 },
             ],
         },
         {
-            id: '3',
-            type: 'Layout',
+            id: getUUid(),
+            type: 'Flex',
             name: 'Flex布局',
-            position,
+            positionType: 'absolute',
+            position: {
+                top: 400,
+                left: 50,
+            },
             props: {
-                'flex-direction': 'horizon',
-                'gap': 6,
+                direction: 'column',
+                gap: 10,
+                justify: 'center', // TODO: add editableProps
+                align: 'center', // TODO: add editableProps
+                backgroundColor: 'lightblue', // TODO: add editableProps
+                zIndex: 5, // TODO: add editableProps
             },
             editableProps: [
                 {
                     label: '摆放模式',
                     type: 'select',
-                    value: '水平',
+                    value: '垂直',
                     options: ['水平', '垂直'],
-                    ref: 'flex-direction'
+                    ref: 'direction',
                 },
                 {
                     label: '间距',
                     type: 'range',
-                    value: 6,
+                    value: 30,
                     min: 0,
                     max: 100,
-                    ref: 'gap'
+                    ref: 'gap',
                 },
             ],
             children: [
                 {
-                    id: '3-1',
+                    id: getUUid(),
                     type: 'Text',
                     name: '产品介绍',
-                    position,
                     props: {
-                        'innerText': '',
-                        'color': '#000'
+                        innerText: '这是一个魔幻的产品',
+                        color: '#000',
                     },
                     editableProps: [
                         {
                             label: '文字内容',
                             type: 'string',
                             value: '这是一个魔幻的产品',
-                            ref: 'innerText'
+                            ref: 'innerText',
                         },
                         {
                             label: '文字颜色',
                             type: 'color',
                             value: '#000',
-                            ref: 'color'
+                            ref: 'color',
                         },
                     ],
                 },
                 {
-                    id: '3-2',
+                    id: getUUid(),
                     type: 'Image',
                     name: '产品图片',
-                    position,
+                    position: {
+                        width: 100,
+                        height: 100,
+                    },
                     props: {
-                        'src': 'http://rad9gvpiv.hd-bkt.clouddn.com/59905ee7fc4957fe.jpg'
+                        src: 'https://fastly.jsdelivr.net/gh/yusixian/imgBed/img/tx.jpg',
                     },
                     editableProps: [
                         {
                             label: '图片上传',
                             type: 'upload',
-                            value: 'http://rad9gvpiv.hd-bkt.clouddn.com/59905ee7fc4957fe.jpg',
-                            ref: 'src'
+                            value: 'https://fastly.jsdelivr.net/gh/yusixian/imgBed/img/tx.jpg',
+                            ref: 'src',
                         },
                     ],
                 },

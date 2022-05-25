@@ -1,8 +1,8 @@
 interface PositionProps {
-    top: number; // 上
-    left: number; // 左
-    width: number; // 宽
-    height: number; // 高
+    top?: number; // 上
+    left?: number; // 左
+    width?: number; // 宽
+    height?: number; // 高
 }
 /**
  * 通用组件属性
@@ -13,7 +13,7 @@ interface BaseComponent {
     type: ComponentType;
     icon?: string; // 物料窗口组建的icon（可选，如undefined则用默认icon）
     positionType?: 'absolute' | 'relative' | 'unset'; // 不存在则默认为相对于画布的absolute
-    position: PositionProps; // 位置属性
+    position?: PositionProps; // 位置属性 flex布局中可以没有
     props: PropsObject;
     editableProps: EditableProp[];
 }
