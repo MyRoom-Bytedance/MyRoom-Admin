@@ -16,13 +16,7 @@ interface BaseComponent {
     position?: PositionProps; // 位置属性 flex布局中可以没有
     props: PropsObject;
     editableProps: EditableProp[];
+    children?: Component[];
 }
 
-/**
- * 可嵌套组件
- */
-interface NestableComponent extends BaseComponent {
-    children: Component[];
-}
-
-type Component = BaseComponent | NestableComponent;
+type Component = BaseComponent;

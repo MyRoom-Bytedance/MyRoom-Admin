@@ -1,7 +1,7 @@
 /*
  * @Author: cos
  * @Date: 2022-05-11 20:30:46
- * @LastEditTime: 2022-05-19 00:10:56
+ * @LastEditTime: 2022-05-31 00:26:30
  * @LastEditors: cos
  * @Description: 物料展示
  * @FilePath: \MyRoom-Admin\src\lib\lowcode-editor\components\LeftPane\Material\index.tsx
@@ -25,15 +25,12 @@ const MaterialCard = styled.section`
     cursor: pointer;
 `;
 
-type MaterialProps = {
-    type: ComponentType; // 物料类型
-    name: string; // 物料名
-    icon?: string; // 物料窗口组建的icon（可选，如undefined则用默认icon）
-    defaultProps?: any; // 物料的默认属性
+export type MaterialProps = {
+    item: Component; // 该物料对应的默认组件
 };
 export const Material = React.memo((props: MaterialProps) => {
-    const { name, icon = 'icon-default' } = props;
-    const [, drag] = useDrag(() => ({ type: 'Material', item: props }));
+    const { name, icon = 'icon-default' } = props.item;
+    const [, drag] = useDrag(() => ({ type: 'Material', item: props.item }));
     return (
         <MaterialCard ref={drag}>
             <IconFont type={icon} style={{ fontSize: 40, color: 'gray' }} />

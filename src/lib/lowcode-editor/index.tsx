@@ -2,7 +2,7 @@
  * @Author: TagBug 1242135295@qq.com
  * @Date: 2022-05-18 23:12:30
  * @LastEditors: cos
- * @LastEditTime: 2022-05-30 23:08:30
+ * @LastEditTime: 2022-05-31 01:32:00
  * @FilePath: \MyRoom-Admin\src\lib\lowcode-editor\index.tsx
  * @Description: 低代码编辑器组件入口
  */
@@ -14,21 +14,20 @@ import LeftPane from './components/LeftPane';
 import MidPane from './components/MidPane';
 import { PropsEditor } from './components/RightPane/PropsEditor';
 import { position, project } from './mock/MockProject';
-
 export const LowcodeEditor = React.memo(() => {
     return (
         // DndProvider作用域局限在LowcodeEditor中
         <DndProvider backend={HTML5Backend}>
             <Row gutter={10}>
-                <Col flex={1}>
+                <Col style={{ width: 300 }}>
                     <h1>Project Material</h1>
                     <LeftPane />
                 </Col>
-                <Col flex={2} style={{ backgroundColor: 'lightblue' }}>
+                <Col>
                     <h1>Project Previewer</h1>
                     <MidPane components={project.components} />
                 </Col>
-                <Col flex={2}>
+                <Col flex={1}>
                     <h1>Project Editor</h1>
                     <PropsEditor
                         position={position}

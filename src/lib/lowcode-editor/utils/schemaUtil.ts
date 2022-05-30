@@ -1,7 +1,7 @@
 /*
  * @Author: cos
  * @Date: 2022-05-16 23:41:41
- * @LastEditTime: 2022-05-26 02:01:58
+ * @LastEditTime: 2022-05-30 22:47:16
  * @LastEditors: cos
  * @Description: schema相关工具
  * @FilePath: \MyRoom-Admin\src\lib\lowcode-editor\utils\schemaUtil.ts
@@ -55,7 +55,7 @@ export const getInstanceFromSchema = (schema: Component | string): BaseInstance 
     // TODO: fix schema resolver
     Object.keys(props).forEach((key: string) => {
         const type: attrType = attrMap[key];
-        console.log(type, key);
+        // console.log(type, key);
         if (type) {
             const value = props[key];
             if (type === attrType.htmlProps) {
@@ -77,12 +77,12 @@ export const getInstanceFromSchema = (schema: Component | string): BaseInstance 
 export const getInstanceListFromSchema = (schemas: Component[]): BaseInstance[] => {
     if (!schemas) return [];
     const list = [];
-    console.log('schemas', schemas);
+    // console.log('schemas', schemas);
     for (let i = 0; i < schemas.length; ++i) {
         const ins = getInstanceFromSchema(schemas[i]);
-        console.log('ins', ins);
+        // console.log('ins', ins);
         if (ins) list.push(ins);
     }
-    console.log('list', list);
+    // console.log('list', list);
     return list;
 };
