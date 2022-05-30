@@ -1,7 +1,7 @@
 /*
  * @Author: cos
  * @Date: 2022-05-17 02:13:34
- * @LastEditTime: 2022-05-26 00:26:04
+ * @LastEditTime: 2022-05-30 23:00:16
  * @LastEditors: cos
  * @Description: Flex布局组件
  * @FilePath: \MyRoom-Admin\src\lib\dynamic-components\Flex\index.tsx
@@ -39,7 +39,7 @@ export const MyFlex = ({ styles, htmlProps, body }: FlexProps) => {
             {Array.isArray(body) &&
                 body.map((item: BaseInstance, index: number) => {
                     if (!item) return null;
-                    return <DynamicComponent {...item} />;
+                    return DynamicComponent(item);
                 })}
         </Flex>
     );
