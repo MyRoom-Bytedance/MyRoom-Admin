@@ -2,7 +2,7 @@
  * @Author: TagBug 1242135295@qq.com
  * @Date: 2022-05-18 23:12:30
  * @LastEditors: cos
- * @LastEditTime: 2022-05-26 01:02:21
+ * @LastEditTime: 2022-05-30 23:08:30
  * @FilePath: \MyRoom-Admin\src\lib\lowcode-editor\index.tsx
  * @Description: 低代码编辑器组件入口
  */
@@ -19,7 +19,7 @@ export const LowcodeEditor = React.memo(() => {
     return (
         // DndProvider作用域局限在LowcodeEditor中
         <DndProvider backend={HTML5Backend}>
-            <Row style={{ gap: 10 }}>
+            <Row gutter={10}>
                 <Col flex={1}>
                     <h1>Project Material</h1>
                     <LeftPane />
