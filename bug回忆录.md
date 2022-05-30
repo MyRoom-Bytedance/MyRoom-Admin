@@ -74,3 +74,7 @@ export const LowcodeEditor = React.memo(() => {
     );
 });
 ```
+
+# Getting an error "A non-serializable value was detected in the state" when using redux toolkit - but NOT with normal redux
+
+解决地址：[Getting an error "A non-serializable value was detected in the state" when using redux toolkit - but NOT with normal redux](https://stackoverflow.com/questions/61704805/getting-an-error-a-non-serializable-value-was-detected-in-the-state-when-using)
