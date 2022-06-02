@@ -1,7 +1,7 @@
 /*
  * @Author: cos
  * @Date: 2022-05-11 21:06:51
- * @LastEditTime: 2022-05-30 22:26:36
+ * @LastEditTime: 2022-06-02 21:10:30
  * @LastEditors: cos
  * @Description: 测试用
  * @FilePath: \MyRoom-Admin\src\lib\lowcode-editor\components\LeftPane\mock.tsx
@@ -45,6 +45,7 @@ export const materialList: DefaulMaterialListType = {
             icon: 'icon-image',
             props: {
                 src: 'https://fastly.jsdelivr.net/gh/yusixian/imgBed/img/tx.jpg', // TODO: 设置默认图片
+                width: 80, // TODO: add editableProps
                 zIndex: 10, // TODO: add editableProps
             },
             editableProps: [

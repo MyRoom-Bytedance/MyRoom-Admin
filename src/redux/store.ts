@@ -1,3 +1,11 @@
+/*
+ * @Author: cos
+ * @Date: 2022-05-08 18:33:24
+ * @LastEditTime: 2022-06-02 20:41:38
+ * @LastEditors: cos
+ * @Description:
+ * @FilePath: \MyRoom-Admin\src\redux\store.ts
+ */
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import persistStore from 'redux-persist/es/persistStore';
 import { projectReducer } from './projectSlice';
@@ -7,7 +15,7 @@ import { userReducer } from './userSlice';
 export const store = configureStore({
     reducer: {
         user: userReducer,
-        project: projectReducer,
+        projectCache: projectReducer,
     },
     middleware: getDefaultMiddleware({
         serializableCheck: false,

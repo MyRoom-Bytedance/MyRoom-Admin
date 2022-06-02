@@ -2,7 +2,7 @@
  * @Author: TagBug 1242135295@qq.com
  * @Date: 2022-05-18 23:12:30
  * @LastEditors: cos
- * @LastEditTime: 2022-05-31 01:32:00
+ * @LastEditTime: 2022-06-02 20:45:10
  * @FilePath: \MyRoom-Admin\src\lib\lowcode-editor\index.tsx
  * @Description: 低代码编辑器组件入口
  */
@@ -10,11 +10,14 @@ import { Col, Row } from 'antd';
 import React from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 import LeftPane from './components/LeftPane';
 import MidPane from './components/MidPane';
 import { PropsEditor } from './components/RightPane/PropsEditor';
-import { position, project } from './mock/MockProject';
+import { position } from './mock/MockProject';
 export const LowcodeEditor = React.memo(() => {
+    const project = useSelector<RootState, Project>((state) => state.projectCache.project);
     return (
         // DndProvider作用域局限在LowcodeEditor中
         <DndProvider backend={HTML5Backend}>

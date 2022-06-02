@@ -1,7 +1,7 @@
 /*
  * @Author: cos
  * @Date: 2022-05-11 18:32:51
- * @LastEditTime: 2022-05-31 01:40:06
+ * @LastEditTime: 2022-06-02 21:09:26
  * @LastEditors: cos
  * @Description: 中部预览面板
  * @FilePath: \MyRoom-Admin\src\lib\lowcode-editor\components\MidPane\index.tsx
@@ -12,6 +12,7 @@ import { getUUid } from 'lib/lowcode-editor/utils';
 import { getInstanceFromSchema, getInstanceListFromSchema } from 'lib/lowcode-editor/utils/schemaUtil';
 import React, { useEffect } from 'react';
 import { useDrop } from 'react-dnd';
+import { useDispatch } from 'react-redux';
 import { addComponent } from 'redux/projectSlice';
 import styled from 'styled-components';
 import { MaterialProps } from '../LeftPane/Material';
@@ -34,13 +35,14 @@ type Props = { components: Component[] };
 // getClientRects获取
 export const MidPane = React.memo(({ components }: Props) => {
     const [instanceList, setInstanceList] = React.useState<BaseInstance[]>(getInstanceListFromSchema(components));
+    const dispatch = useDispatch();
     const [, drop] = useDrop(() => ({
         accept: 'Material',
         drop: (item: Component, monitor) => {
             // console.log(el?.getClientRects());
             const { x, y } = monitor.getClientOffset() || { x: 0, y: 0 };
             console.log('x,y', x, y);
-            const left = x - 348;
+            const left = x - 548;
             const top = y - 95;
             console.log('left,top', left, top);
             let { name, type, positionType, position, props, editableProps, children } = item;
@@ -56,26 +58,19 @@ export const MidPane = React.memo(({ components }: Props) => {
                     ...props,
                 },
                 editableProps,
-                children: children || [],
             };
-            console.log('newComponent', newComponent);
-            // add component to project
-            components.push(newComponent);
-            // addComponent(newComponent);
-            // const newInstance = getInstanceFromSchema(newComponent);
-            // const newInstanceList = [...instanceList];
-            // if (newInstance) newInstanceList.push(newInstance);
-            // console.log('newInstanceList', newInstanceList);
-            // setInstanceList(newInstanceList);
+            if (children) Object.assign(newComponent, { children });
+            // console.log('newComponent', newComponent);
+            dispatch(addComponent(newComponent));
         },
     }));
     useEffect(() => {
-        console.log('change!', components);
+        console.log('change! component', components);
         const list: BaseInstance[] = getInstanceListFromSchema(components);
         setInstanceList(list);
     }, [components]);
     useEffect(() => {
-        console.log('change!', instanceList);
+        console.log('change! ins', instanceList);
     }, [instanceList]);
     // const generatePreview = () => {
     //     // console.log(instanceList);
