@@ -1,5 +1,9 @@
-import React from "react";
+import { LowcodeEditor } from 'lib/lowcode-editor';
+import React from 'react';
 
 export const ProjectEditor = React.memo(() => {
-    return <>project editor</>
+
+    return (
+        <LowcodeEditor />
+    )
 });
