@@ -2,7 +2,7 @@ import { Breadcrumb, ConfigProvider, Layout, Menu } from 'antd';
 import { Content, Header } from 'antd/lib/layout/layout';
 import styled from 'styled-components';
 import zhCN from 'antd/lib/locale/zh_CN';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.min.css';
 import { MenuItemType, MenuMode } from 'rc-menu/lib/interface';
 import { Outlet, useLocation, useNavigate } from 'react-router';
 import Sider from 'antd/lib/layout/Sider';
@@ -17,51 +17,63 @@ export const App = React.memo(() => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const menu = (mode?: MenuMode) => <Menu
-        className="nav-menu"
-        theme='dark'
-        mode={mode}
-        items={menuItems}
-        selectedKeys={[location.pathname]}
-        onSelect={({ key }) => navigate(key)}
-    />;
+    const menu = (mode?: MenuMode) => (
+        <Menu
+            className="nav-menu"
+            theme="dark"
+            mode={mode}
+            items={menuItems}
+            selectedKeys={[location.pathname]}
+            onSelect={({ key }) => navigate(key)}
+        />
+    );
 
-    return <AppContainer>
-        <ConfigProvider locale={zhCN}>
-            <Layout className='app-layout'>
-                <Sider className='side-menu' collapsible>{menu('inline')}</Sider>
-                <Header className='header-menu'>{menu('horizontal')}</Header>
-                <Layout style={{ flexDirection: 'column', padding: '16px 36px' }}>
-                    <Breadcrumb style={{ margin: '8px 0' }}>
-                        <Breadcrumb.Item href='/'>
-                            <HomeOutlined />
-                            MyRoom
-                        </Breadcrumb.Item>
-                        <Breadcrumb.Item>
-                            {menuItems.find(item => item.key === location.pathname)?.label}
-                        </Breadcrumb.Item>
-                    </Breadcrumb>
-                    <Content className='content'>
-                        <Suspense fallback={<FallbackLoading />}>
-                            {/* 路由 */}
-                            <Outlet />
-                        </Suspense>
-                    </Content>
+    return (
+        <AppContainer>
+            <ConfigProvider locale={zhCN}>
+                <Layout className="app-layout">
+                    <Sider className="side-menu" collapsible>
+                        {menu('inline')}
+                    </Sider>
+                    <Header className="header-menu">{menu('horizontal')}</Header>
+                    <Layout style={{ flexDirection: 'column', padding: '16px 36px' }}>
+                        <Breadcrumb style={{ margin: '8px 0' }}>
+                            <Breadcrumb.Item href="/">
+                                <HomeOutlined />
+                                MyRoom
+                            </Breadcrumb.Item>
+                            <Breadcrumb.Item>
+                                {menuItems.find((item) => location.pathname.startsWith(item.key.toString()))?.label}
+                            </Breadcrumb.Item>
+                        </Breadcrumb>
+                        <Content className="content">
+                            <Suspense fallback={<FallbackLoading />}>
+                                {/* 路由 */}
+                                <Outlet />
+                            </Suspense>
+                        </Content>
+                    </Layout>
                 </Layout>
-            </Layout>
-        </ConfigProvider>
-    </AppContainer>
+            </ConfigProvider>
+        </AppContainer>
+    );
 });
 
 const menuItems: MenuItemType[] = [
     {
         key: '/admin/project/list',
-        label: '项目列表'
-    }, {
+        label: '项目列表',
+    },
+    {
         key: '/admin/user',
-        label: '个人信息'
-    }
-]
+        label: '个人信息',
+    },
+    {
+        key: '/admin/project/editor',
+        label: '项目编辑',
+        style: { display: 'none' },
+    },
+];
 
 const AppContainer = styled.section`
     height: 100%;
@@ -83,13 +95,13 @@ const AppContainer = styled.section`
         top: 0;
     }
 
-    @media(max-width: 1048px) {
+    @media (max-width: 1048px) {
         .side-menu {
             display: none;
         }
     }
 
-    @media(min-width: 1048px) {
+    @media (min-width: 1048px) {
         .app-layout {
             flex-direction: row;
         }
@@ -99,7 +111,7 @@ const AppContainer = styled.section`
         }
 
         .nav-menu {
-            padding: 24px 0; 
+            padding: 24px 0;
         }
     }
-`
+`;
