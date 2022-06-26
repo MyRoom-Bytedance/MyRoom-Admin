@@ -27,7 +27,7 @@ type Props = {
     attr: Component;
 };
 export const Material = React.memo(({ attr }: Props) => {
-    const { id, name, type, icon = 'icon-default', position } = attr;
+    const { /*id,*/ name, /*type,*/ icon = 'icon-default', /*position*/ } = attr;
     const [, drag] = useDrag(() => ({ type: 'Material', attr }));
     return (
         <MaterialCard ref={drag}>

@@ -6,7 +6,7 @@ type UserBaseInfo = {
     token?: string,
     uid: string,
     nickname: string,
-    avatar: string,
+    avatar?: string,
 }
 
 /**
