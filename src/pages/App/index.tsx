@@ -32,7 +32,7 @@ export const App = React.memo(() => {
         <AppContainer>
             <ConfigProvider locale={zhCN}>
                 <Layout className="app-layout">
-                    <Sider className="side-menu" collapsible>
+                    <Sider className="side-menu">
                         {menu('inline')}
                     </Sider>
                     <Header className="header-menu">{menu('horizontal')}</Header>

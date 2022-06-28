@@ -24,7 +24,7 @@ export const LowcodeEditor = React.memo(() => {
                     <h1>Project Material</h1>
                     <LeftPane />
                 </Col>
-                <Col flex={2} style={{ backgroundColor: 'lightblue' }}>
+                <Col flex={2}>
                     <h1>Project Previewer</h1>
                     <MidPane />
                 </Col>

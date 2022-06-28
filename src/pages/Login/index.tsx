@@ -86,14 +86,15 @@ export const Login = React.memo(() => {
                     <ProFormCheckbox noStyle name="autoLogin">
                         自动登录
                     </ProFormCheckbox>
-                    <a
+                    <span
                         style={{
                             float: 'right',
+                            cursor: 'pointer',
                         }}
                         onClick={() => setRegister(!isRegister)}
                     >
                         {isRegister ? '返回登录' : '注册账号'}
-                    </a>
+                    </span>
                 </div>
             </LoginFormPage>
         </LoginContainer>
