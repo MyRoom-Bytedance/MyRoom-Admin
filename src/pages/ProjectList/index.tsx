@@ -11,12 +11,12 @@ import { Button } from 'antd';
 import { useNavigate } from 'react-router';
 
 export const ProjectList = React.memo(() => {
-    const navigate = useNavigate();
-    return (
-        <>
-            <Button type="primary" size="large" onClick={() => navigate('/admin/project/editor/1')}>
-                项目编辑器测试
-            </Button>
-        </>
-    );
+  const navigate = useNavigate();
+  return (
+    <>
+      <Button type="primary" size="large" onClick={() => navigate('/admin/project/editor/1')}>
+        项目编辑器测试
+      </Button>
+    </>
+  );
 });

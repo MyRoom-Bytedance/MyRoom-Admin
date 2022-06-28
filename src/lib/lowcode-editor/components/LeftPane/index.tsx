@@ -11,23 +11,22 @@ import { Collapse, Space } from 'antd';
 import { materialList } from './mock';
 import { Material } from './Material';
 const { Panel } = Collapse;
-type Props = {};
-export const LeftPane = React.memo(({}: Props) => {
-    return (
-        <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
-            基础组件
-            <Collapse defaultActiveKey={['通用']}>
-                <Panel header="通用" key="通用">
-                    <Space wrap>
-                        {materialList.map((item) => (
-                            <Material attr={item} key={item.id} />
-                        ))}
-                    </Space>
-                </Panel>
-                <Panel header="布局" key="布局"></Panel>
-                <Panel header="房源" key="房源"></Panel>
-            </Collapse>
-        </Space>
-    );
+export const LeftPane = React.memo(() => {
+  return (
+    <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+      基础组件
+      <Collapse defaultActiveKey={['通用']}>
+        <Panel header="通用" key="通用">
+          <Space wrap>
+            {materialList.map((item) => (
+              <Material attr={item} key={item.id} />
+            ))}
+          </Space>
+        </Panel>
+        <Panel header="布局" key="布局"></Panel>
+        <Panel header="房源" key="房源"></Panel>
+      </Collapse>
+    </Space>
+  );
 });
 export default LeftPane;

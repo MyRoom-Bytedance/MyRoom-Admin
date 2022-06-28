@@ -14,104 +14,102 @@ import { FallbackLoading } from 'components/FallbackLoading';
  * 经纪人子系统App
  */
 export const App = React.memo(() => {
-    const location = useLocation();
-    const navigate = useNavigate();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-    const menu = (mode?: MenuMode) => (
-        <Menu
-            className="nav-menu"
-            theme="dark"
-            mode={mode}
-            items={menuItems}
-            selectedKeys={[location.pathname]}
-            onSelect={({ key }) => navigate(key)}
-        />
-    );
+  const menu = (mode?: MenuMode) => (
+    <Menu
+      className="nav-menu"
+      theme="dark"
+      mode={mode}
+      items={menuItems}
+      selectedKeys={[location.pathname]}
+      onSelect={({ key }) => navigate(key)}
+    />
+  );
 
-    return (
-        <AppContainer>
-            <ConfigProvider locale={zhCN}>
-                <Layout className="app-layout">
-                    <Sider className="side-menu">
-                        {menu('inline')}
-                    </Sider>
-                    <Header className="header-menu">{menu('horizontal')}</Header>
-                    <Layout style={{ flexDirection: 'column', padding: '16px 36px' }}>
-                        <Breadcrumb style={{ margin: '8px 0' }}>
-                            <Breadcrumb.Item href="/">
-                                <HomeOutlined />
-                                MyRoom
-                            </Breadcrumb.Item>
-                            <Breadcrumb.Item>
-                                {menuItems.find((item) => location.pathname.startsWith(item.key.toString()))?.label}
-                            </Breadcrumb.Item>
-                        </Breadcrumb>
-                        <Content className="content">
-                            <Suspense fallback={<FallbackLoading />}>
-                                {/* 路由 */}
-                                <Outlet />
-                            </Suspense>
-                        </Content>
-                    </Layout>
-                </Layout>
-            </ConfigProvider>
-        </AppContainer>
-    );
+  return (
+    <AppContainer>
+      <ConfigProvider locale={zhCN}>
+        <Layout className="app-layout">
+          <Sider className="side-menu">{menu('inline')}</Sider>
+          <Header className="header-menu">{menu('horizontal')}</Header>
+          <Layout style={{ flexDirection: 'column', padding: '16px 36px' }}>
+            <Breadcrumb style={{ margin: '8px 0' }}>
+              <Breadcrumb.Item href="/">
+                <HomeOutlined />
+                MyRoom
+              </Breadcrumb.Item>
+              <Breadcrumb.Item>
+                {menuItems.find((item) => location.pathname.startsWith(item.key.toString()))?.label}
+              </Breadcrumb.Item>
+            </Breadcrumb>
+            <Content className="content">
+              <Suspense fallback={<FallbackLoading />}>
+                {/* 路由 */}
+                <Outlet />
+              </Suspense>
+            </Content>
+          </Layout>
+        </Layout>
+      </ConfigProvider>
+    </AppContainer>
+  );
 });
 
 const menuItems: MenuItemType[] = [
-    {
-        key: '/admin/project/list',
-        label: '项目列表',
-    },
-    {
-        key: '/admin/user',
-        label: '个人信息',
-    },
-    {
-        key: '/admin/project/editor',
-        label: '项目编辑',
-        style: { display: 'none' },
-    },
+  {
+    key: '/admin/project/list',
+    label: '项目列表',
+  },
+  {
+    key: '/admin/user',
+    label: '个人信息',
+  },
+  {
+    key: '/admin/project/editor',
+    label: '项目编辑',
+    style: { display: 'none' },
+  },
 ];
 
 const AppContainer = styled.section`
-    height: 100%;
-    overflow-x: hidden;
+  height: 100%;
+  overflow-x: hidden;
 
-    .ant-layout {
-        min-height: 100%;
+  .ant-layout {
+    min-height: 100%;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    background: #fff;
+  }
+
+  .nav-menu {
+    position: sticky;
+    top: 0;
+  }
+
+  @media (max-width: 1048px) {
+    .side-menu {
+      display: none;
+    }
+  }
+
+  @media (min-width: 1048px) {
+    .app-layout {
+      flex-direction: row;
     }
 
-    .content {
-        display: flex;
-        flex-direction: column;
-        padding: 12px;
-        background: #fff;
+    .header-menu {
+      display: none;
     }
 
     .nav-menu {
-        position: sticky;
-        top: 0;
+      padding: 24px 0;
     }
-
-    @media (max-width: 1048px) {
-        .side-menu {
-            display: none;
-        }
-    }
-
-    @media (min-width: 1048px) {
-        .app-layout {
-            flex-direction: row;
-        }
-
-        .header-menu {
-            display: none;
-        }
-
-        .nav-menu {
-            padding: 24px 0;
-        }
-    }
+  }
 `;

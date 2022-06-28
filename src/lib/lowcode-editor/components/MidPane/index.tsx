@@ -11,26 +11,26 @@ import { useDrop } from 'react-dnd';
 import styled from 'styled-components';
 
 const MidPaneContainer = styled.section`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 470px;
-    height: 840px;
-    border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 470px;
+  height: 840px;
+  border: 1px solid black;
 `;
 const Preview = styled.section`
-    box-sizing: border-box;
-    position: relative;
-    width: 100%;
-    height: 100%;
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  height: 100%;
 `;
 
 export const MidPane = React.memo(() => {
-    const [, drop] = useDrop(() => ({ accept: 'Material' }));
-    return (
-        <MidPaneContainer>
-            <Preview ref={drop}></Preview>
-        </MidPaneContainer>
-    );
+  const [, drop] = useDrop(() => ({ accept: 'Material' }));
+  return (
+    <MidPaneContainer>
+      <Preview ref={drop}></Preview>
+    </MidPaneContainer>
+  );
 });
 export default MidPane;

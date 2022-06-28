@@ -10,7 +10,7 @@ import { createFromIconfontCN } from '@ant-design/icons';
 
 // https://www.iconfont.cn/manage/index?manage_type=myprojects&projectId=3394019
 const IconFont = createFromIconfontCN({
-    scriptUrl: '//at.alicdn.com/t/font_3394019_vo07vdwgmfa.js',
+  scriptUrl: '//at.alicdn.com/t/font_3394019_vo07vdwgmfa.js',
 });
 export default IconFont;
 

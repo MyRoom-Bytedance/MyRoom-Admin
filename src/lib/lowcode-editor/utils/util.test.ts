@@ -9,13 +9,13 @@
 import { parseJSON } from '../utils';
 import { getInstanceFromSchema } from '../utils/schemaUtil';
 test('parseJSON', () => {
-    let obj = parseJSON('{"a":1,"b":"2"}');
-    expect(obj).toEqual({ a: 1, b: '2' });
-    console.log(obj);
-    expect(parseJSON('dawdawwa')).toBeNull();
+  let obj = parseJSON('{"a":1,"b":"2"}');
+  expect(obj).toEqual({ a: 1, b: '2' });
+  console.log(obj);
+  expect(parseJSON('dawdawwa')).toBeNull();
 });
 test('getInstanceFromSchema', () => {
-    let ins = getInstanceFromSchema(`{
+  let ins = getInstanceFromSchema(`{
     "id": "text-1",
     "type": "Text",
     "name": "标题",
@@ -39,20 +39,20 @@ test('getInstanceFromSchema', () => {
         }
     ]
 }`);
-    console.log('ins', ins);
-    expect(ins).toEqual({
-        id: 'text-1',
-        type: 'Text',
-        name: '标题',
-        position: {
-            top: 10,
-            left: 10,
-            width: 100,
-            height: 50,
-        },
-        styles: {
-            color: '#000',
-        },
-        body: '我是一个标题',
-    });
+  console.log('ins', ins);
+  expect(ins).toEqual({
+    id: 'text-1',
+    type: 'Text',
+    name: '标题',
+    position: {
+      top: 10,
+      left: 10,
+      width: 100,
+      height: 50,
+    },
+    styles: {
+      color: '#000',
+    },
+    body: '我是一个标题',
+  });
 });

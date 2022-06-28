@@ -9,17 +9,17 @@
 import { parseJSON } from '.';
 
 export const getInstanceFromSchema = (schema: Component | string): Object | null => {
-    let component: Component | null = null; //
-    if (typeof schema === 'string') {
-        component = parseJSON(schema) as Component;
-    }
-    if (!component) return null;
+  let component: Component | null = null; //
+  if (typeof schema === 'string') {
+    component = parseJSON(schema) as Component;
+  }
+  if (!component) return null;
 
-    let res: any = { styles: {}, body: null };
-    const { props, ...args } = component;
-    res = Object.assign(res, args);
-    // TODO: fix schema resolver
-    /* for (const idx in props) {
+  let res: any = { styles: {}, body: null };
+  const { props, ...args } = component;
+  res = Object.assign(res, args);
+  // TODO: fix schema resolver
+  /* for (const idx in props) {
         const { type, value, isCSSProps = false } = props[idx];
         if (type === 'body') {
             res.body = value;
@@ -29,5 +29,5 @@ export const getInstanceFromSchema = (schema: Component | string): Object | null
             res = Object.assign(res, { [type]: value });
         }
     } */
-    return res;
+  return res;
 };
