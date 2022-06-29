@@ -17,10 +17,11 @@ export const UserLogin = (data: UserLoginRequest) => {
   });
 };
 
-export const UserLogout = () => {
+export const UserRegister = (data: UserLoginRequest) => {
   return request<UserBaseInfo>({
-    url: '/user/logout',
+    url: '/user/register',
     method: 'POST',
+    data,
   });
 }
 

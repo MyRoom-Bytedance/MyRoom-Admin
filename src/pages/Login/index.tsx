@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import { setUserCache } from 'redux/userSlice';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
-import { UserLogin } from 'service/user';
+import { UserLogin, UserRegister } from 'service/user';
 
 /**
  * copy的官方的Login页，加了一些redux逻辑
@@ -19,13 +19,11 @@ export const Login = React.memo(() => {
   const [isRegister, setRegister] = React.useState(false);
 
   const handleLogin = async (form: Record<string, any>) => {
-    try {
-      // 账号密码登入
+    if (!isRegister) {
       const res = await UserLogin({
         username: form.username,
         password: form.password,
       });
-      console.log(res);
       // 使用redux记录 userInfo （token在userInfo中）
       dispatch(setUserCache({
         token: res.token,
@@ -34,9 +32,20 @@ export const Login = React.memo(() => {
       message.success('登陆成功');
       localStorage.setItem('access_token', res.token);
       navigate('/admin');
-    } catch (e) {
-      console.error(e);
+    } else {
+      const res = await UserRegister({
+        username: form.username,
+        password: form.password,
+      });
+
+      if (res.status === 200) {
+        message.success('注册成功');
+        setRegister(false);
+      } else {
+        message.error(res.msg);
+      }
     }
+      
   };
 
   return (
@@ -44,7 +53,7 @@ export const Login = React.memo(() => {
       <LoginFormPage
         backgroundImageUrl="https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png"
         title="MyRoom"
-        subTitle="经纪人登陆"
+        subTitle={ isRegister ? "经纪人注册" : "经纪人登陆" }
         onFinish={handleLogin.bind(null)}
       >
         {
@@ -84,15 +93,21 @@ export const Login = React.memo(() => {
             marginBottom: 24,
           }}
         >
-          <ProFormCheckbox noStyle name="autoLogin">
-            自动登录
-          </ProFormCheckbox>
+          <div style={{ display: isRegister ? 'none' : 'initial' }}>
+            <ProFormCheckbox noStyle name="autoLogin">
+              自动登录
+            </ProFormCheckbox>
+          </div>
           <span
             style={{
               float: 'right',
               cursor: 'pointer',
+              marginBottom: isRegister ? 24 : 0,
             }}
-            onClick={() => setRegister(!isRegister)}
+            onClick={() => {
+              setRegister(!isRegister);
+              document.querySelector(".ant-btn span")!.innerHTML = isRegister ? '登录' : '注册';
+            }}
           >
             {isRegister ? '返回登录' : '注册账号'}
           </span>
