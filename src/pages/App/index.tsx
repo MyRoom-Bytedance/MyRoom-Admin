@@ -63,6 +63,10 @@ const menuItems: MenuItemType[] = [
     label: '项目列表',
   },
   {
+    key: '/admin/home',
+    label: '房源管理',
+  },
+  {
     key: '/admin/user',
     label: '个人信息',
   },

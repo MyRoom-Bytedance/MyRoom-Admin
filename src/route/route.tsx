@@ -9,6 +9,7 @@ const App = React.lazy(() => import('./PageApp'));
 const UserHome = React.lazy(() => import('./PageUser'));
 const ProjectList = React.lazy(() => import('./PageProjectList'));
 const ProjectEditor = React.lazy(() => import('./PageProjectEditor'));
+const Home = React.lazy(() => import('./PageHome'));
 
 export const routeConfig: RouteObject[] = [
   {
@@ -43,6 +44,10 @@ export const routeConfig: RouteObject[] = [
           {
             path: 'user',
             element: <UserHome />,
+          },
+          {
+            path: 'home',
+            element: <Home />,
           },
           {
             path: '',

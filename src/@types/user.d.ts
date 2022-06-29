@@ -4,7 +4,7 @@
 type UserBaseInfo = {
   autoLogin?: boolean; // 自动登录功能使用
   token?: string;
-  uid: string;
+  uid?: string;
   nickname: string;
   avatar?: string;
 };

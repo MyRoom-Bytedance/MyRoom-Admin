@@ -16,18 +16,3 @@ export const UserLogin = (data: UserLoginRequest) => {
   });
 };
 
-/**
- * 验证码登录请求JSON
- */
-type UserVerifyRequest = {
-  mobile: string;
-  captcha: string;
-};
-
-export const UserVerifyLogin = (data: UserVerifyRequest) => {
-  return request<UserBaseInfo>({
-    url: '/user/verify',
-    method: 'POST',
-    data,
-  });
-};

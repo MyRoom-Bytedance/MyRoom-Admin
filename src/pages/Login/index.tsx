@@ -19,19 +19,21 @@ export const Login = React.memo(() => {
   const [isRegister, setRegister] = React.useState(false);
 
   const handleLogin = async (form: Record<string, any>) => {
-    let user: UserBaseInfo | undefined = undefined;
     try {
       // 账号密码登入
-      user = (
-        await UserLogin({
-          username: form.username,
-          password: form.password,
-        })
-      ).data;
+      const res = await UserLogin({
+        username: form.username,
+        password: form.password,
+      });
+      console.log(res);
       // 使用redux记录 userInfo （token在userInfo中）
-      dispatch(setUserCache(user));
+      dispatch(setUserCache({
+        token: res.token,
+        nickname: form.username,
+      }));
       message.success('登陆成功');
-      navigate('/');
+      localStorage.setItem('access_token', res.token);
+      navigate('/admin');
     } catch (e) {
       console.error(e);
     }
