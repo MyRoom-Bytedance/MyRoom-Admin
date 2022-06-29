@@ -6,7 +6,7 @@ export const position = {
 };
 
 export const project: Project = {
-  id: '7e6b9b87-28d8-43c0-a292-359f4a493b94',
+  id: 1,
   name: '测试工程',
   components: [
     {
@@ -24,7 +24,7 @@ export const project: Project = {
           type: 'string',
           value: '我是一个标题',
           ref: 'innerText',
-          valueAdaptor: (v) => `<b>${v}</b>`,
+          valueAdaptor: (v: any) => `<b>${v}</b>`,
         },
         {
           label: '文字颜色',

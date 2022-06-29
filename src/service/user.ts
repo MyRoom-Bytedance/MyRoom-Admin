@@ -23,7 +23,7 @@ export const UserRegister = (data: UserLoginRequest) => {
     method: 'POST',
     data,
   });
-}
+};
 
 type UserUpdateRequest = {
   pre_password?: string;
@@ -37,4 +37,4 @@ export const UserUpdate = (data: UserUpdateRequest) => {
     method: 'POST',
     data,
   });
-}
+};

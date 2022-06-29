@@ -10,4 +10,4 @@ type Home = {
   description?: string;
   createdAt?: Date;
   updatedAt?: Date;
-}
+};

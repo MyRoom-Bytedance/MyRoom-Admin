@@ -6,7 +6,7 @@
  * @Description: 项目列表
  * @FilePath: \MyRoom-Admin\src\pages\ProjectList\index.tsx
  */
-import React, { useState, useEffect, } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { getProjectList, deleteProject } from 'service/project';
 import { Row, Col, Button, Table, message } from 'antd';
@@ -19,13 +19,13 @@ export const ProjectList = React.memo(() => {
   const getProject = async () => {
     const res = await getProjectList();
     setProjectList(res.data);
-  }
+  };
 
   const deleteProjectById = async (id: number) => {
     await deleteProject(id);
     message.success('删除成功');
     getProject();
-  }
+  };
 
   useEffect(() => {
     getProject();
@@ -46,46 +46,35 @@ export const ProjectList = React.memo(() => {
       dataIndex: 'createdAt',
       render: (time: string) => {
         return new Date(time).toLocaleString();
-      }
+      },
     },
     {
       title: '操作',
       render: (record: Home) => {
         return (
           <>
-            <Button
-              type="link"
-              onClick={() => navigate(`/admin/project/editor/${record.id}`)}
-            >
+            <Button type="link" onClick={() => navigate(`/admin/project/editor/${record.id}`)}>
               编辑
             </Button>
-            <Button
-              type="link"
-              danger
-              onClick={() => deleteProjectById(record.id)}
-            >
+            <Button type="link" danger onClick={() => deleteProjectById(record.id)}>
               删除
             </Button>
           </>
-        )
-      }
+        );
+      },
     },
   ];
 
   return (
     <>
-      <Row justify='end'>
+      <Row justify="end">
         <Button type="primary" size="large" onClick={() => navigate('/admin/project/editor/0')}>
           新建项目
         </Button>
       </Row>
-      <Row style={{ marginTop: 10, }}>
+      <Row style={{ marginTop: 10 }}>
         <Col span={24}>
-          <Table
-            rowKey={'id'}
-            columns={tableColumns}
-            dataSource={projectList}
-          />
+          <Table rowKey={'id'} columns={tableColumns} dataSource={projectList} />
         </Col>
       </Row>
     </>
