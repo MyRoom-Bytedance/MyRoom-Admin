@@ -6,6 +6,7 @@ import ExecuteError from 'util/executeError';
 axios.defaults.timeout = 20000;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.post['Authorization'] = `${localStorage.getItem('access_token')}`;
+axios.defaults.headers.get['Authorization'] = `${localStorage.getItem('access_token')}`;
 axios.defaults.withCredentials = false;
 axios.defaults.baseURL = 'http://localhost:8000';
 
