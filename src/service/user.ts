@@ -1,3 +1,4 @@
+import { type } from 'os';
 import request from './axios';
 
 /**
@@ -16,3 +17,23 @@ export const UserLogin = (data: UserLoginRequest) => {
   });
 };
 
+export const UserLogout = () => {
+  return request<UserBaseInfo>({
+    url: '/user/logout',
+    method: 'POST',
+  });
+}
+
+type UserUpdateRequest = {
+  pre_password?: string;
+  new_password?: string;
+  username?: string;
+};
+
+export const UserUpdate = (data: UserUpdateRequest) => {
+  return request<UserBaseInfo>({
+    url: '/user/update',
+    method: 'POST',
+    data,
+  });
+}
