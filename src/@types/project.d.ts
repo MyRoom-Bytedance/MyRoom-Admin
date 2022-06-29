@@ -1,4 +1,4 @@
-type Home = {
+type Project = {
   id: number;
   name: string;
   createdAt?: Date;
