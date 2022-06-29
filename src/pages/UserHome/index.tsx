@@ -2,11 +2,12 @@ import React, { createRef } from 'react';
 import { UserUpdate } from 'service/user';
 import { Form, Input, Button, message } from 'antd';
 import type { FormInstance } from 'antd/es/form';
+import { useNavigate } from 'react-router';
 const FormItem = Form.Item;
 
 export const UserHome = React.memo(() => {
   const formRef = createRef<FormInstance>();
-
+  const navigator = useNavigate();
 
   return (
     <div>
@@ -45,6 +46,16 @@ export const UserHome = React.memo(() => {
             }}
           >
             提交
+          </Button>
+          <Button
+            type="primary"
+            style={{ marginLeft: 20, }}
+            onClick={() => {
+              localStorage.setItem('access_token', '');
+              navigator('/login');
+            }}
+          >
+            退出登录
           </Button>
         </FormItem>
       </Form>
