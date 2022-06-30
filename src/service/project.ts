@@ -51,3 +51,20 @@ export const deleteProject = (id: number) => {
     },
   });
 };
+
+export const getActiveProject = () => {
+  return request({
+    url: '/project/active',
+    method: 'GET',
+  });
+}
+
+export const setActiveProject = (id: number) => {
+  return request({
+    url: '/project/setActive',
+    method: 'GET',
+    params: {
+      id,
+    }
+  })
+}
