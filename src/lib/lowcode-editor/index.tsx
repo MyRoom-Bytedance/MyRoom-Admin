@@ -7,16 +7,30 @@
  * @Description: 低代码编辑器组件入口
  */
 import { Col, Row } from 'antd';
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import { useParams } from 'react-router';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import LeftPane from './components/LeftPane';
 import MidPane from './components/MidPane';
 import { PropsEditor } from './components/RightPane/PropsEditor';
-import { position, project } from './mock/MockProject';
+import { position, project } from './const/MockProject';
 
 export const LowcodeEditor = React.memo(() => {
-  const containerRef = React.useRef<HTMLDivElement>(null);
+  const id = Number(useParams().id);
+  const [projectData, setProjectData] = useState({
+    id: 0,
+    name: 'new project',
+    global: {},
+    components: [],
+  });
+  const [rightPaneElementId, setRightPaneElementId] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (id === 0) {
+      
+    }
+  }, []);
 
   return (
     // DndProvider作用域局限在LowcodeEditor中
@@ -28,14 +42,20 @@ export const LowcodeEditor = React.memo(() => {
         </Col>
         <Col flex={2} ref={containerRef}>
           <h1>Project Previewer</h1>
-          <MidPane containerRef={containerRef} />
+          <MidPane
+            containerRef={containerRef}
+            key={`${projectData.components.length}-${Math.random()}`}
+            projectData={projectData}
+            setProjectData={setProjectData}
+            setRightPanelElementId={setRightPaneElementId}
+          />
         </Col>
         <Col flex={2}>
           <h1>Project Editor</h1>
           <PropsEditor
-            position={position}
-            editableProps={project.components[0].editableProps}
-            props={project.components[0].props}
+            projectData={projectData}
+            setProjectData={setProjectData}
+            rightPaneElementId={rightPaneElementId}
           />
         </Col>
       </Row>

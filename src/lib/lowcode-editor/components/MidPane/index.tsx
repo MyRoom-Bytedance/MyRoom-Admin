@@ -9,7 +9,8 @@
 import React from 'react';
 import { useDrop } from 'react-dnd';
 import styled from 'styled-components';
-import { COMPONENT_TYPE } from 'lib/lowcode-editor/mock/ComponentData';
+import { COMPONENT_TYPE } from 'lib/lowcode-editor/const/ComponentData';
+import GenernateProject from './GenernateProject';
 
 const MidPaneContainer = styled.section`
   display: flex;
@@ -26,20 +27,50 @@ const Preview = styled.section`
   height: 100%;
 `;
 
-export default function MidPane({ containerRef }: { containerRef: React.RefObject<HTMLDivElement> }) {
+type MidPineProps = {
+  containerRef: React.RefObject<HTMLDivElement>;
+  projectData: Project;
+  setProjectData: Function;
+  setRightPanelElementId: Function;
+};
+
+export default function MidPane({
+  containerRef,
+  projectData,
+  setProjectData,
+  setRightPanelElementId,
+}: MidPineProps) {
   const [, drop] = useDrop(() => ({
     accept: Object.values(COMPONENT_TYPE),
     drop: (_, monitor) => {
       const { x, y } = monitor.getSourceClientOffset()!; // 相对屏幕左上角的位置
       // 计算相对容器左上角的位置
       const [currentX, currentY] = [x - containerRef.current!.offsetLeft, y - containerRef.current!.offsetTop - 22];
-      
-      console.log(monitor.getItem());
+      let item = monitor.getItem<Component>();
+      if (item.type === COMPONENT_TYPE.Background) {
+        return;
+      }
+      setProjectData({
+        ...projectData,
+        components: [...projectData.components, {
+          id: projectData.components.reduce((pre, item) => Math.max(item.id, pre), 0) + 1,
+          type: item.type,
+          props: {
+            ...item.props,
+            top: currentY,
+            left: currentX,
+          },
+        }],
+      });
     }
   }));
   return (
     <MidPaneContainer>
-      <Preview ref={drop}></Preview>
+      <Preview ref={drop}>
+        <GenernateProject
+          data={projectData}
+        />
+      </Preview>
     </MidPaneContainer>
   );
 };

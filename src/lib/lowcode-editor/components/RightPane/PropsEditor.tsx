@@ -109,46 +109,57 @@ const preCheck = (props: EditableProp<EditableValueType>[], adaptors: { [key: st
   return ret;
 };
 
-export const PropsEditor: FC<Props> = React.memo((componentProp) => {
-  const { position, props } = componentProp;
-  const adaptors: { [key: string]: Function } = {};
+type EditorProps = {
+  projectData: Project;
+  setProjectData: Function;
+  rightPaneElementId: number;
+};
 
-  const positionProps = preCheck(
-    Object.keys(componentProp.position).map((key) => ({
-      label: key,
-      type: 'number',
-      value: componentProp.position[key],
-      ref: key,
-    })),
-    adaptors
-  );
-  const editableProps = preCheck(componentProp.editableProps, adaptors);
+export function PropsEditor({
+  projectData,
+  setProjectData,
+  rightPaneElementId,
+}: EditorProps) {
+  // const { position, props } = componentProp;
+  // const adaptors: { [key: string]: Function } = {};
 
-  let posEditor = (
-    <>
-      <h1>位置</h1>
-      <ProForm submitter={false} layout="horizontal" onFieldsChange={onFieldsChange.bind(null, position, adaptors)}>
-        {positionProps.map((prop) => editorRenderMap[prop.type](prop as any))}
-      </ProForm>
-    </>
-  );
+  // const positionProps = preCheck(
+  //   Object.keys(componentProp.position).map((key) => ({
+  //     label: key,
+  //     type: 'number',
+  //     value: componentProp.position[key],
+  //     ref: key,
+  //   })),
+  //   adaptors
+  // );
+  // const editableProps = preCheck(componentProp.editableProps, adaptors);
 
-  let propEditor = (
-    <>
-      <h1>属性</h1>
-      <ProForm submitter={false} layout="horizontal" onFieldsChange={onFieldsChange.bind(null, props, adaptors)}>
-        {editableProps.map((prop) => editorRenderMap[prop.type](prop as any))}
-      </ProForm>
-    </>
-  );
+  // let posEditor = (
+  //   <>
+  //     <h1>位置</h1>
+  //     <ProForm submitter={false} layout="horizontal" onFieldsChange={onFieldsChange.bind(null, position, adaptors)}>
+  //       {positionProps.map((prop) => editorRenderMap[prop.type](prop as any))}
+  //     </ProForm>
+  //   </>
+  // );
 
-  return (
-    <>
-      {posEditor}
-      {propEditor}
-    </>
-  );
-});
+  // let propEditor = (
+  //   <>
+  //     <h1>属性</h1>
+  //     <ProForm submitter={false} layout="horizontal" onFieldsChange={onFieldsChange.bind(null, props, adaptors)}>
+  //       {editableProps.map((prop) => editorRenderMap[prop.type](prop as any))}
+  //     </ProForm>
+  //   </>
+  // );
+
+  // return (
+  //   <>
+  //     {posEditor}
+  //     {propEditor}
+  //   </>
+  // );
+  return <div>qwq</div>
+};
 
 /**
  * 表单项value更改时，同步更改prop[ref]的值

@@ -8,7 +8,7 @@
  */
 import React from 'react';
 import { Collapse, Space } from 'antd';
-import { materialList } from '../../mock/ComponentData';
+import { materialList } from 'lib/lowcode-editor/const/ComponentData';
 import { Material } from './Material';
 const { Panel } = Collapse;
 export const LeftPane = React.memo(() => {
