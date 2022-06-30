@@ -10,6 +10,7 @@ import React, { FC } from 'react';
 import { FieldData } from 'rc-field-form/lib/interface';
 import { Input } from 'antd';
 import { ImageChanger } from './ImageChanger';
+import { COMPONENT_TYPE } from '../../const/ComponentData';
 
 type Props = {
   position: { [key: string]: number };
@@ -113,12 +114,14 @@ type EditorProps = {
   projectData: Project;
   setProjectData: Function;
   rightPaneElementId: number;
+  rightPaneElementType: COMPONENT_TYPE | null;
 };
 
 export function PropsEditor({
   projectData,
   setProjectData,
   rightPaneElementId,
+  rightPaneElementType,
 }: EditorProps) {
   // const { position, props } = componentProp;
   // const adaptors: { [key: string]: Function } = {};

@@ -70,7 +70,7 @@ export const materialList: {
         left: '0px',
         top: '0px',
         zIndex: '1',
-        homeId: '',
+        homeId: null,
       }
     }
   ],
@@ -103,5 +103,5 @@ export type HOUSE_PROPS = {
   left: string;
   top: string;
   zIndex: string;
-  homeId: string;
+  homeId: number | null;
 };

@@ -14,7 +14,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import LeftPane from './components/LeftPane';
 import MidPane from './components/MidPane';
 import { PropsEditor } from './components/RightPane/PropsEditor';
-import { position, project } from './const/MockProject';
+import { COMPONENT_TYPE } from './const/ComponentData';
 
 export const LowcodeEditor = React.memo(() => {
   const id = Number(useParams().id);
@@ -25,6 +25,7 @@ export const LowcodeEditor = React.memo(() => {
     components: [],
   });
   const [rightPaneElementId, setRightPaneElementId] = useState(0);
+  const [rightPaneElementType, setRightPaneElementType] = useState<COMPONENT_TYPE | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (id === 0) {
@@ -48,6 +49,7 @@ export const LowcodeEditor = React.memo(() => {
             projectData={projectData}
             setProjectData={setProjectData}
             setRightPanelElementId={setRightPaneElementId}
+            setRightPaneElementType={setRightPaneElementType}
           />
         </Col>
         <Col flex={2}>
@@ -56,6 +58,7 @@ export const LowcodeEditor = React.memo(() => {
             projectData={projectData}
             setProjectData={setProjectData}
             rightPaneElementId={rightPaneElementId}
+            rightPaneElementType={rightPaneElementType}
           />
         </Col>
       </Row>

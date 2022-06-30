@@ -32,6 +32,7 @@ type MidPineProps = {
   projectData: Project;
   setProjectData: Function;
   setRightPanelElementId: Function;
+  setRightPaneElementType: Function;
 };
 
 export default function MidPane({
@@ -39,6 +40,7 @@ export default function MidPane({
   projectData,
   setProjectData,
   setRightPanelElementId,
+  setRightPaneElementType
 }: MidPineProps) {
   const [, drop] = useDrop(() => ({
     accept: Object.values(COMPONENT_TYPE),

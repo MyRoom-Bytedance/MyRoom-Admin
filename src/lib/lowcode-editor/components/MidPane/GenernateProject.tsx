@@ -42,11 +42,30 @@ export default function GenernateProject({ data }: { data: Project }) {
             />
           );
         } else if (component.type === COMPONENT_TYPE.HouseCard || component.type === COMPONENT_TYPE.HouseCard_Droped) {
-          return <></>;
+          return <HomeCard key={component.id} props={component.props} />;
         } else {
           return <></>;
         }
       })}
     </div>
+  );
+}
+
+function HomeCard({ props }: { props: any }) {
+  // console.log("home", props);
+  return (
+    props.homeId === null ? (<div style={{ top: props.top, left: props.left, }} >请指定房源id</div>) : (
+      <div
+        style={{
+          position: "absolute",
+          top: props.top,
+          left: props.left,
+          width: props.width,
+          height: props.height,
+        }}
+      >
+        qwq
+      </div>
+    )
   );
 }
