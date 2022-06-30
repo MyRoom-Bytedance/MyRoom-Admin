@@ -8,17 +8,20 @@
  */
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { getProjectList, deleteProject } from 'service/project';
+import {getProjectList, deleteProject, setActiveProject, getActiveProject} from 'service/project';
 import { Row, Col, Button, Table, message } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 
 export const ProjectList = React.memo(() => {
   const [projectList, setProjectList] = useState<Array<any>>([]);
+  const [active, setActive] = useState<any>();
   const navigate = useNavigate();
 
   const getProject = async () => {
     const res = await getProjectList();
     setProjectList(res.data);
+    const active = await getActiveProject();
+    setActive(active.data);
   };
 
   const deleteProjectById = async (id: number) => {
@@ -58,6 +61,9 @@ export const ProjectList = React.memo(() => {
             </Button>
             <Button type="link" danger onClick={() => deleteProjectById(record.id)}>
               删除
+            </Button>
+            <Button type="link" onClick={() => setActiveProject(record.id).then((res) => setActive(res.data))} disabled={record.id === active?.id}>
+              { record.id === active?.id ? "当前活动" : "设为活动" }
             </Button>
           </>
         );
