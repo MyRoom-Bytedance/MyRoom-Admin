@@ -99,7 +99,7 @@ export const LowcodeEditor = React.memo(() => {
         </div>
         <div
           style={{
-            width: '48%',
+            width: '40%',
           }}
           ref={containerRef}
         >
@@ -115,7 +115,7 @@ export const LowcodeEditor = React.memo(() => {
         </div>
         <div
           style={{
-            width: '25%',
+            width: '28%',
           }}
         >
           <h1>Project Editor</h1>

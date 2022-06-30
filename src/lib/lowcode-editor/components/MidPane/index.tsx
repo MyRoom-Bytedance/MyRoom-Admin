@@ -16,8 +16,8 @@ const MidPaneContainer = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 460px;
-  height: 840px;
+  width: 375px;
+  height: 667px;
   border: 1px solid black;
 `;
 const Preview = styled.section`

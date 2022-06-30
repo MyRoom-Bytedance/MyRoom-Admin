@@ -180,6 +180,7 @@ export default function GenernateProject({
         width: "100%",
         position: "relative",
         backgroundColor: data.global?.backgroundColor || "#fff",
+        overflow: "hidden",
       }}
     >
       {data.components.map((component) => {
