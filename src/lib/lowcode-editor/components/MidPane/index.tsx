@@ -16,7 +16,7 @@ const MidPaneContainer = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 470px;
+  width: 460px;
   height: 840px;
   border: 1px solid black;
 `;
@@ -69,8 +69,8 @@ export default function MidPane({
         return;
       }
       if (item.isDroped) {
-        changeElementData(item.id, 'top', currentY);
-        changeElementData(item.id, 'left', currentX);
+        changeElementData(item.id, 'top', currentY + 'px');
+        changeElementData(item.id, 'left', currentX + 'px');
       }
       if (item.type === COMPONENT_TYPE.Text || item.type === COMPONENT_TYPE.Image || item.type === COMPONENT_TYPE.HouseCard) {
         const newId = projectData.components.reduce((pre, item) => Math.max(item.id, pre), 0) + 1;
@@ -81,8 +81,8 @@ export default function MidPane({
             type: item.type,
             props: {
               ...item.props,
-              top: currentY,
-              left: currentX,
+              top: currentY + 'px',
+              left: currentX + 'px',
             },
           }],
         });

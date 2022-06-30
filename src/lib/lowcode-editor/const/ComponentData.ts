@@ -30,7 +30,6 @@ export const materialList: {
         innerText: '文本组件',
         color: '#000',
         fontSize: '14px',
-        fontWeight: 'normal',
         height: '50px',
         width: '100px',
         left: '0px',

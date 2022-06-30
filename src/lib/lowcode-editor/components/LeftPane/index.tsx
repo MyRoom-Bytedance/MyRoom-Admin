@@ -7,14 +7,16 @@
  * @FilePath: \MyRoom-Admin\src\lib\lowcode-editor\components\LeftPane\index.tsx
  */
 import React from 'react';
-import { Collapse, Space } from 'antd';
+import { Collapse, Space, Button } from 'antd';
 import { materialList } from 'lib/lowcode-editor/const/ComponentData';
 import { Material } from './Material';
 const { Panel } = Collapse;
 export const LeftPane = React.memo(() => {
   return (
     <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
-      基础组件
+      <Button type="primary">
+        保存
+      </Button>
       <Collapse defaultActiveKey={['通用']}>
         <Panel header="通用" key="通用">
           <Space wrap>

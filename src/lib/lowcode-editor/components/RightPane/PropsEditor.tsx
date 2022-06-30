@@ -1,114 +1,7 @@
-import ProForm, {
-  ProFormDigit,
-  ProFormSelect,
-  ProFormSwitch,
-  ProFormText,
-  ProFormTimePicker,
-  ProFormSlider,
-} from '@ant-design/pro-form';
-import React, { FC } from 'react';
-import { FieldData } from 'rc-field-form/lib/interface';
-import { Input } from 'antd';
-import { ImageChanger } from './ImageChanger';
+import React from 'react';
 import { COMPONENT_TYPE } from '../../const/ComponentData';
-
-type Props = {
-  position: { [key: string]: number };
-  editableProps: EditableProp[];
-  props: PropsObject;
-};
-
-type RenderMap = { [key in EditableValueType]: (prop: EditableProp<key>) => JSX.Element };
-
-const editorRenderMap: RenderMap = {
-  string: (prop) => (
-    <ProFormText
-      key={prop.label}
-      name={prop.ref}
-      label={prop.label}
-      disabled={prop.disabled}
-      initialValue={prop.value}
-    />
-  ),
-  number: (prop) => (
-    <ProFormDigit
-      key={prop.label}
-      name={prop.ref}
-      label={prop.label}
-      disabled={prop.disabled}
-      initialValue={prop.value}
-    />
-  ),
-  upload: (prop) => (
-    <ProForm.Item key={prop.label} name={prop.ref} label={prop.label} initialValue={prop.value}>
-      <ImageChanger />
-    </ProForm.Item>
-  ),
-  select: (prop) => (
-    <ProFormSelect
-      key={prop.label}
-      name={prop.ref}
-      label={prop.label}
-      options={prop.options}
-      disabled={prop.disabled}
-      initialValue={prop.value}
-    />
-  ),
-  switch: (prop) => (
-    <ProFormSwitch
-      key={prop.label}
-      name={prop.ref}
-      label={prop.label}
-      disabled={prop.disabled}
-      initialValue={prop.value}
-    />
-  ),
-  color: (prop) => (
-    <ProForm.Item key={prop.label} name={prop.ref} label={prop.label} initialValue={prop.value}>
-      <Input type="color" disabled={prop.disabled} />
-    </ProForm.Item>
-  ),
-  time: (prop) => (
-    <ProFormTimePicker
-      key={prop.label}
-      name={prop.ref}
-      label={prop.label}
-      disabled={prop.disabled}
-      initialValue={prop.value}
-    />
-  ),
-  range: (prop) => (
-    <ProFormSlider
-      key={prop.label}
-      name={prop.ref}
-      label={prop.label}
-      disabled={prop.disabled}
-      min={prop.min}
-      max={prop.max}
-      initialValue={prop.value}
-    />
-  ),
-};
-
-/**
- * 前置数据处理
- */
-const preCheck = (props: EditableProp<EditableValueType>[], adaptors: { [key: string]: Function }) => {
-  // 如果prop.disabled为true，则让该属性不可编辑
-  const ret = props.map((prop) => {
-    if (prop.valueAdaptor) adaptors[prop.ref] = prop.valueAdaptor;
-    return prop.disabled
-      ? ({
-          type: 'string',
-          label: prop.label,
-          value: '不支持',
-          disabled: true,
-        } as EditableProp<'string'>)
-      : prop;
-  });
-  // console.log(ret);
-  return ret;
-};
+import { Button } from 'antd';
+import './style.css';
 
 type EditorProps = {
   projectData: Project;
@@ -123,60 +16,336 @@ export function PropsEditor({
   rightPaneElementId,
   rightPaneElementType,
 }: EditorProps) {
-  // const { position, props } = componentProp;
-  // const adaptors: { [key: string]: Function } = {};
 
-  // const positionProps = preCheck(
-  //   Object.keys(componentProp.position).map((key) => ({
-  //     label: key,
-  //     type: 'number',
-  //     value: componentProp.position[key],
-  //     ref: key,
-  //   })),
-  //   adaptors
-  // );
-  // const editableProps = preCheck(componentProp.editableProps, adaptors);
+  const getItemById = (id: number) => {
+    return projectData.components.find((item) => item.id === id);
+  };
 
-  // let posEditor = (
-  //   <>
-  //     <h1>位置</h1>
-  //     <ProForm submitter={false} layout="horizontal" onFieldsChange={onFieldsChange.bind(null, position, adaptors)}>
-  //       {positionProps.map((prop) => editorRenderMap[prop.type](prop as any))}
-  //     </ProForm>
-  //   </>
-  // );
-
-  // let propEditor = (
-  //   <>
-  //     <h1>属性</h1>
-  //     <ProForm submitter={false} layout="horizontal" onFieldsChange={onFieldsChange.bind(null, props, adaptors)}>
-  //       {editableProps.map((prop) => editorRenderMap[prop.type](prop as any))}
-  //     </ProForm>
-  //   </>
-  // );
-
-  // return (
-  //   <>
-  //     {posEditor}
-  //     {propEditor}
-  //   </>
-  // );
-  return <div>qwq</div>
-};
-
-/**
- * 表单项value更改时，同步更改prop[ref]的值
- */
-const onFieldsChange = (props: PropsObject, adaptors: { [key: string]: Function }, fields: FieldData[]) => {
-  fields.forEach((field) => {
-    if (!field.errors?.length) {
-      const ref = field.name.toString();
-      console.log(
-        `prop '${field.name}' changed from '${props[ref]}' to '${
-          adaptors[ref] ? adaptors[ref](field.value) : field.value
-        }'${adaptors[ref] ? ' via adaptor' : ''}`
-      );
-      props[ref] = adaptors[ref] ? adaptors[ref](field.value) : field.value;
+  const changeElementData = (id: number, key: string, newData: any) => {
+    const element = getItemById(id);
+    if (element) {
+      element.props[key] = newData;
+      setProjectData({
+        ...projectData,
+        components: projectData.components
+      });
     }
-  });
+  }
+
+  if (rightPaneElementType === COMPONENT_TYPE.Text || rightPaneElementType === COMPONENT_TYPE.Text_Droped) {
+    const elementData = getItemById(rightPaneElementId).props;
+    if (!elementData) {
+      return <div>属性编辑区</div>;
+    }
+    const inputDomObject: Array<HTMLInputElement> = [];
+    return (
+      <div key={rightPaneElementId}>
+        <h3>文字元素</h3>
+        <br />
+        <div className="flex-row-space-between text-config-item">
+          <div>文字内容:</div>
+          <input
+            defaultValue={elementData.innerText}
+            ref={(element) => {
+              inputDomObject[0] = element!;
+            }}
+            type="text"
+          ></input>
+        </div>
+        <div className="flex-row-space-between text-config-item">
+          <div>文字颜色:</div>
+          <input
+            defaultValue={elementData.color}
+            ref={(element) => {
+              inputDomObject[1] = element!;
+            }}
+            type="text"
+          ></input>
+        </div>
+        <div className="flex-row-space-between text-config-item">
+          <div>文字大小:</div>
+          <input
+            defaultValue={elementData.fontSize}
+            ref={(element) => {
+              inputDomObject[2] = element!;
+            }}
+            type="text"
+          ></input>
+        </div>
+        <div className="flex-row-space-between text-config-item">
+          <div>宽度:</div>
+          <input
+            defaultValue={elementData.width}
+            ref={(element) => {
+              inputDomObject[3] = element!;
+            }}
+            type="text"
+          ></input>
+        </div>
+        <div className="flex-row-space-between text-config-item">
+          <div>高度:</div>
+          <input
+            defaultValue={elementData.height}
+            ref={(element) => {
+              inputDomObject[4] = element!;
+            }}
+            type="text"
+          ></input>
+        </div>
+        <div className="flex-row-space-between text-config-item">
+          <div>上方距离:</div>
+          <input
+            defaultValue={elementData.top}
+            ref={(element) => {
+              inputDomObject[5] = element!;
+            }}
+            type="text"
+          ></input>
+        </div>
+        <div className="flex-row-space-between text-config-item">
+          <div>左侧距离:</div>
+          <input
+            defaultValue={elementData.left}
+            ref={(element) => {
+              inputDomObject[6] = element!;
+            }}
+            type="text"
+          ></input>
+        </div>
+        <div className="flex-row-space-between text-config-item">
+          <div>层叠（越大越靠上）:</div>
+          <input
+            defaultValue={elementData.zIndex}
+            ref={(element) => {
+              inputDomObject[7] = element!;
+            }}
+            type="text"
+          ></input>
+        </div>
+        <br />
+        <Button
+          type="primary"
+          onClick={() => {
+            changeElementData(rightPaneElementId, 'innerText', inputDomObject[0].value);
+            changeElementData(rightPaneElementId, 'color', inputDomObject[1].value);
+            changeElementData(rightPaneElementId, 'fontSize', inputDomObject[2].value);
+            changeElementData(rightPaneElementId, 'width', inputDomObject[3].value);
+            changeElementData(rightPaneElementId, 'height', inputDomObject[4].value);
+            changeElementData(rightPaneElementId, 'top', inputDomObject[5].value);
+            changeElementData(rightPaneElementId, 'left', inputDomObject[6].value);
+            changeElementData(rightPaneElementId, 'zIndex', inputDomObject[7].value);
+          }}
+        >
+          确定
+        </Button>
+      </div>
+    );
+  } else if (rightPaneElementType === COMPONENT_TYPE.Image || rightPaneElementType === COMPONENT_TYPE.Image_Droped) {
+    const elementData = getItemById(rightPaneElementId).props;
+    if (!elementData) {
+      return <div>属性编辑区</div>;
+    }
+    const inputDomObject: Array<HTMLInputElement> = [];
+    return (
+      <div key={rightPaneElementId}>
+        <h3>图片元素</h3>
+        <br />
+        <div className="flex-row-space-between text-config-item">
+          <div>宽度:</div>
+          <input
+            defaultValue={elementData.width}
+            ref={(element) => {
+              inputDomObject[0] = element!;
+            }}
+            type="text"
+          ></input>
+        </div>
+        <div className="flex-row-space-between text-config-item">
+          <div>高度:</div>
+          <input
+            defaultValue={elementData.height}
+            ref={(element) => {
+              inputDomObject[1] = element!;
+            }}
+            type="text"
+          ></input>
+        </div>
+        <div className="flex-row-space-between text-config-item">
+          <div>上方距离:</div>
+          <input
+            defaultValue={elementData.top}
+            ref={(element) => {
+              inputDomObject[2] = element!;
+            }}
+            type="text"
+          ></input>
+        </div>
+        <div className="flex-row-space-between text-config-item">
+          <div>左侧距离:</div>
+          <input
+            defaultValue={elementData.left}
+            ref={(element) => {
+              inputDomObject[3] = element!;
+            }}
+            type="text"
+          ></input>
+        </div>
+        <div className="flex-row-space-between text-config-item">
+          <div>图片地址:</div>
+          <input
+            defaultValue={elementData.src}
+            ref={(element) => {
+              inputDomObject[4] = element!;
+            }}
+            type="text"
+          ></input>
+        </div>
+        <div className="flex-row-space-between text-config-item">
+          <div>层叠（越大越靠上）:</div>
+          <input
+            defaultValue={elementData.zIndex}
+            ref={(element) => {
+              inputDomObject[5] = element!;
+            }}
+            type="text"
+          ></input>
+        </div>
+        <br />
+        <Button
+          type="primary"
+          onClick={() => {
+            changeElementData(rightPaneElementId, 'width', inputDomObject[0].value);
+            changeElementData(rightPaneElementId, 'height', inputDomObject[1].value);
+            changeElementData(rightPaneElementId, 'top', inputDomObject[2].value);
+            changeElementData(rightPaneElementId, 'left', inputDomObject[3].value);
+            changeElementData(rightPaneElementId, 'src', inputDomObject[4].value);
+            changeElementData(rightPaneElementId, 'zIndex', inputDomObject[5].value);
+          }}
+        >
+          确定
+        </Button>
+      </div>
+    );
+  } else if (rightPaneElementType === COMPONENT_TYPE.HouseCard || rightPaneElementType === COMPONENT_TYPE.HouseCard_Droped) {
+    const elementData = getItemById(rightPaneElementId).props;
+    if (!elementData) {
+      return <div>属性编辑区</div>;
+    }
+    const inputDomObject: Array<HTMLInputElement> = [];
+    return (
+      <div key={rightPaneElementId}>
+        <h3>图片元素</h3>
+        <br />
+        <div className="flex-row-space-between text-config-item">
+          <div>宽度:</div>
+          <input
+            defaultValue={elementData.width}
+            ref={(element) => {
+              inputDomObject[0] = element!;
+            }}
+            type="text"
+          ></input>
+        </div>
+        <div className="flex-row-space-between text-config-item">
+          <div>高度:</div>
+          <input
+            defaultValue={elementData.height}
+            ref={(element) => {
+              inputDomObject[1] = element!;
+            }}
+            type="text"
+          ></input>
+        </div>
+        <div className="flex-row-space-between text-config-item">
+          <div>上方距离:</div>
+          <input
+            defaultValue={elementData.top}
+            ref={(element) => {
+              inputDomObject[2] = element!;
+            }}
+            type="text"
+          ></input>
+        </div>
+        <div className="flex-row-space-between text-config-item">
+          <div>左侧距离:</div>
+          <input
+            defaultValue={elementData.left}
+            ref={(element) => {
+              inputDomObject[3] = element!;
+            }}
+            type="text"
+          ></input>
+        </div>
+        <div className="flex-row-space-between text-config-item">
+          <div>房源id:</div>
+          <input
+            defaultValue={elementData.src}
+            ref={(element) => {
+              inputDomObject[4] = element!;
+            }}
+            type="text"
+          ></input>
+        </div>
+        <div className="flex-row-space-between text-config-item">
+          <div>层叠（越大越靠上）:</div>
+          <input
+            defaultValue={elementData.zIndex}
+            ref={(element) => {
+              inputDomObject[5] = element!;
+            }}
+            type="text"
+          ></input>
+        </div>
+        <br />
+        <Button
+          type="primary"
+          onClick={() => {
+            changeElementData(rightPaneElementId, 'width', inputDomObject[0].value);
+            changeElementData(rightPaneElementId, 'height', inputDomObject[1].value);
+            changeElementData(rightPaneElementId, 'top', inputDomObject[2].value);
+            changeElementData(rightPaneElementId, 'left', inputDomObject[3].value);
+            changeElementData(rightPaneElementId, 'homeId', inputDomObject[4].value);
+            changeElementData(rightPaneElementId, 'zIndex', inputDomObject[5].value);
+          }}
+        >
+          确定
+        </Button>
+      </div>
+    );
+  } else if (rightPaneElementType === COMPONENT_TYPE.Background) {
+    let inputDomObject: HTMLInputElement;
+    return (
+      <>
+        <h3>背景</h3>
+        <br />
+        <div className="flex-row-space-between text-config-item">
+          <div>背景颜色:</div>
+          <input
+            defaultValue={projectData.global.backgroundColor}
+            ref={(element) => {
+              inputDomObject = element!;
+            }}
+            type="text"
+          ></input>
+        </div>
+        <br />
+        <Button
+          type="primary"
+          onClick={() => {
+            setProjectData({
+              ...projectData,
+              global: {
+                ...projectData.global,
+                backgroundColor: inputDomObject.value,
+              },
+            });
+          }}
+        >
+          确定
+        </Button>
+      </>
+    )
+  } else {
+    return <div> 属性编辑区 </div>;
+  }
 };

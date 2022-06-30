@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
-import { materialList, TEXT_PROPS, IMAGE_PROPS, HOUSE_PROPS, COMPONENT_TYPE } from 'lib/lowcode-editor/const/ComponentData';
+import React from "react";
+import { COMPONENT_TYPE } from 'lib/lowcode-editor/const/ComponentData';
 import { useDrag } from "react-dnd";
-const materials = [...materialList.common, ...materialList.layout, ...materialList.house];
 
 function Text({ component, setRightPanelElementId, setRightPaneElementType }: any) {
   const [, drag] = useDrag(() => ({
@@ -42,6 +41,7 @@ function Image({ component, setRightPanelElementId, setRightPaneElementType }: a
         ...style,
         position: "absolute",
       }}
+      alt="图片加载失败"
       onClick={() => {
         setRightPanelElementId(component.id);
         setRightPaneElementType(component.type);
@@ -104,7 +104,7 @@ export default function GenernateProject({
   setRightPanelElementId: Function,
   setRightPaneElementType: Function
 }) {
-  
+  console.log("genernateProject", data);
   return (
     <div
       style={{

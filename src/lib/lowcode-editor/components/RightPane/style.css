@@ -1,0 +1,12 @@
+.flex-row-space-between {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.flex-row-space-between > input {
+  width: 120px;
+}
+.text-config-item {
+  margin: 5px 0;
+}

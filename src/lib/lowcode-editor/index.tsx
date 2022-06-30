@@ -6,7 +6,6 @@
  * @FilePath: \myroom-admin\src\lib\lowcode-editor\index.tsx
  * @Description: 低代码编辑器组件入口
  */
-import { Col, Row } from 'antd';
 import React, { useRef, useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { DndProvider } from 'react-dnd';
@@ -21,27 +20,47 @@ export const LowcodeEditor = React.memo(() => {
   const [projectData, setProjectData] = useState({
     id: 0,
     name: 'new project',
-    global: {},
+    global: {
+      backgroundColor: '#eee',
+    },
     components: [],
   });
   const [rightPaneElementId, setRightPaneElementId] = useState(0);
   const [rightPaneElementType, setRightPaneElementType] = useState<COMPONENT_TYPE | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  
   useEffect(() => {
     if (id === 0) {
       
     }
+    // eslint-disable-next-line
   }, []);
 
   return (
     // DndProvider作用域局限在LowcodeEditor中
     <DndProvider backend={HTML5Backend}>
-      <Row style={{ gap: 10 }}>
-        <Col flex={1}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          width: '100%',
+        }}
+      >
+        <div
+          style={{
+            width: '25%',
+          }}
+        >
           <h1>Project Material</h1>
           <LeftPane />
-        </Col>
-        <Col flex={2} ref={containerRef}>
+        </div>
+        <div
+          style={{
+            width: '48%',
+          }}
+          ref={containerRef}
+        >
           <h1>Project Previewer</h1>
           <MidPane
             containerRef={containerRef}
@@ -51,8 +70,12 @@ export const LowcodeEditor = React.memo(() => {
             setRightPanelElementId={setRightPaneElementId}
             setRightPaneElementType={setRightPaneElementType}
           />
-        </Col>
-        <Col flex={2}>
+        </div>
+        <div
+          style={{
+            width: '25%',
+          }}
+        >
           <h1>Project Editor</h1>
           <PropsEditor
             projectData={projectData}
@@ -60,8 +83,9 @@ export const LowcodeEditor = React.memo(() => {
             rightPaneElementId={rightPaneElementId}
             rightPaneElementType={rightPaneElementType}
           />
-        </Col>
-      </Row>
+        </div>
+      </div>
+
     </DndProvider>
   );
 });
