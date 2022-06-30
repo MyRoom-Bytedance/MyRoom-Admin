@@ -64,8 +64,8 @@ export const materialList: {
       name: '房源',
       type: COMPONENT_TYPE.HouseCard,
       props: {
-        height: '100px',
-        width: '200px',
+        height: '200px',
+        width: '400px',
         left: '0px',
         top: '0px',
         zIndex: '1',

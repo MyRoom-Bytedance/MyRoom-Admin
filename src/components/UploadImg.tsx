@@ -4,7 +4,6 @@ import OSS from 'ali-oss';
 import { getStsInfo } from 'service/sts';
 import { UploadFile } from 'antd/es/upload/interface';
 import { RcFile } from 'antd/lib/upload';
-import ImgCrop from 'antd-img-crop';
 
 interface IProps {
   uploadHeadImg: (imgUrl: string) => void;
@@ -85,19 +84,17 @@ const UploadImg = (props: IProps) => {
   };
 
   return (
-    <ImgCrop zoom rotate>
-      <Upload
-        customRequest={handleUpload}
-        listType="picture-card"
-        maxCount={1}
-        fileList={fileList}
-        onChange={onChange}
-        onPreview={onPreview}
-        beforeUpload={beforeUpload}
-      >
-        {fileList.length < 1 && '+ Upload'}
-      </Upload>
-    </ImgCrop>
+    <Upload
+      customRequest={handleUpload}
+      listType="picture-card"
+      maxCount={1}
+      fileList={fileList}
+      onChange={onChange}
+      onPreview={onPreview}
+      beforeUpload={beforeUpload}
+    >
+      {fileList.length < 1 && '+ Upload'}
+    </Upload>
   );
 };
 

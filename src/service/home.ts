@@ -61,3 +61,13 @@ export const deleteHome = (id: number) => {
     },
   });
 };
+
+export const getHomeById = (id: number) => {
+  return request<Home>({
+    url: '/home/details',
+    method: 'GET',
+    params: {
+      id,
+    },
+  });
+}

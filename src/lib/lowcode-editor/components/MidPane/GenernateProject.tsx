@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { COMPONENT_TYPE } from 'lib/lowcode-editor/const/ComponentData';
 import { useDrag } from "react-dnd";
+import { Card } from "antd";
+import { getHomeById } from "service/home";
 
 function Text({ component, setRightPanelElementId, setRightPaneElementType }: any) {
   const [, drag] = useDrag(() => ({
@@ -50,6 +52,72 @@ function Image({ component, setRightPanelElementId, setRightPaneElementType }: a
   );
 }
 
+type Home = {
+  id: number;
+  image: string;
+  listing_name: string;
+  pricing: number;
+  floor_plan_room: number;
+  floor_plan_hall: number;
+  squaremeter: number;
+  total_floor: number;
+  description?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
+function HomeCardContent({ id }: { id: number }) {
+  const [home, setHome] = useState<Home | null>(null);
+
+  const getHome = async () => {
+    const res = await getHomeById(id);
+    setHome(res.data);
+  }
+
+  useEffect(() => {
+    getHome();
+    // eslint-disable-next-line
+  }, [id]);
+
+  return (
+    home === null ? <div>加载中...</div> : (
+      <div
+        style={{
+          width: '100%',
+          padding: '0 10px',
+          marginBottom: '10px',
+        }}
+      >
+        <Card title={home.listing_name}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+            }}
+          >
+            <img src={home.image} style={{ height: '100px' }} alt="暂无图片" />
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-around',
+              }}
+            >
+              <span>售价： {home.pricing} 万元</span>
+              <span>面积： {home.squaremeter} 平方米</span>
+              <span>户型： {home.floor_plan_room} 室 {home.floor_plan_hall} 厅</span>
+              <span>楼层： {home.total_floor} 层</span>
+            </div>
+            <div></div>
+          </div>
+        </Card>
+      </div>
+    )
+  );
+
+}
+
+
 function HomeCard({
   props,
   setRightPanelElementId,
@@ -89,7 +157,7 @@ function HomeCard({
           height: props.height,
         }}
       >
-        qwq
+        <HomeCardContent id={props.homeId} />
       </div>
     )
   );
