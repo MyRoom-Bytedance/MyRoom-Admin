@@ -16,6 +16,8 @@ import { PropsEditor } from './components/RightPane/PropsEditor';
 import { position, project } from './mock/MockProject';
 
 export const LowcodeEditor = React.memo(() => {
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
   return (
     // DndProvider作用域局限在LowcodeEditor中
     <DndProvider backend={HTML5Backend}>
@@ -24,9 +26,9 @@ export const LowcodeEditor = React.memo(() => {
           <h1>Project Material</h1>
           <LeftPane />
         </Col>
-        <Col flex={2}>
+        <Col flex={2} ref={containerRef}>
           <h1>Project Previewer</h1>
-          <MidPane />
+          <MidPane containerRef={containerRef} />
         </Col>
         <Col flex={2}>
           <h1>Project Editor</h1>

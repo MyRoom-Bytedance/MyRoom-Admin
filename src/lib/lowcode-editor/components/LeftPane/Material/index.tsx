@@ -12,7 +12,7 @@ import React from 'react';
 import { useDrag } from 'react-dnd';
 
 const MaterialCard = styled.section`
-  padding: 0.625rem 0.9375rem;
+  padding: 0.325rem 0.9375rem;
   display: flex;
   flex-flow: column wrap;
   gap: 0.625rem;
@@ -27,11 +27,12 @@ type Props = {
   attr: Component;
 };
 export const Material = React.memo(({ attr }: Props) => {
-  const { /*id,*/ name, /*type,*/ icon = 'icon-default' /*position*/ } = attr;
-  const [, drag] = useDrag(() => ({ type: 'Material', attr }));
+  const { name } = attr;
+  const [, drag] = useDrag(() => ({ type: attr.type, item: attr }));
+
   return (
     <MaterialCard ref={drag}>
-      <IconFont type={icon} style={{ fontSize: 40, color: 'gray' }} />
+      <IconFont type="icon-default" style={{ fontSize: 40, color: 'gray' }} />
       {name}
       {/* 这是一个{name}物料，类型为{type} */}
     </MaterialCard>

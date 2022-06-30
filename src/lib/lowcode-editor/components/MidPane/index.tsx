@@ -9,6 +9,7 @@
 import React from 'react';
 import { useDrop } from 'react-dnd';
 import styled from 'styled-components';
+import { COMPONENT_TYPE } from 'lib/lowcode-editor/mock/ComponentData';
 
 const MidPaneContainer = styled.section`
   display: flex;
@@ -25,12 +26,20 @@ const Preview = styled.section`
   height: 100%;
 `;
 
-export const MidPane = React.memo(() => {
-  const [, drop] = useDrop(() => ({ accept: 'Material' }));
+export default function MidPane({ containerRef }: { containerRef: React.RefObject<HTMLDivElement> }) {
+  const [, drop] = useDrop(() => ({
+    accept: Object.values(COMPONENT_TYPE),
+    drop: (_, monitor) => {
+      const { x, y } = monitor.getSourceClientOffset()!; // 相对屏幕左上角的位置
+      // 计算相对容器左上角的位置
+      const [currentX, currentY] = [x - containerRef.current!.offsetLeft, y - containerRef.current!.offsetTop - 22];
+      
+      console.log(monitor.getItem());
+    }
+  }));
   return (
     <MidPaneContainer>
       <Preview ref={drop}></Preview>
     </MidPaneContainer>
   );
-});
-export default MidPane;
+};
