@@ -25,10 +25,12 @@ export const Login = React.memo(() => {
         password: form.password,
       });
       // 使用redux记录 userInfo （token在userInfo中）
-      dispatch(setUserCache({
-        token: res.token,
-        nickname: form.username,
-      }));
+      dispatch(
+        setUserCache({
+          token: res.token,
+          nickname: form.username,
+        })
+      );
       message.success('登陆成功');
       localStorage.setItem('access_token', res.token);
       navigate('/admin');

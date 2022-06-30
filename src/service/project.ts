@@ -1,6 +1,5 @@
 import request from './axios';
 
-
 export const getProjectList = () => {
   return request<Array<Project>>({
     url: '/project/list',
@@ -33,21 +32,21 @@ export const updateProject = (data: ProjectUpdateRequest) => {
     method: 'POST',
     data,
   });
-}
+};
 
 export const getProjectById = (id: number) => {
   return request<Project>({
     url: `/project/details/${id}`,
     method: 'GET',
   });
-}
+};
 
 export const deleteProject = (id: number) => {
   return request({
     url: '/project/delete',
     method: 'GET',
     params: {
-      id, 
+      id,
     },
   });
-}
+};

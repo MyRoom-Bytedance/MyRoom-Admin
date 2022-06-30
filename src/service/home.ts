@@ -42,7 +42,7 @@ type HomeUpdateRequest = {
   squaremeter?: number;
   total_floor?: number;
   description?: string;
-}
+};
 
 export const updateHome = (data: HomeUpdateRequest) => {
   return request<Home>({
@@ -50,7 +50,7 @@ export const updateHome = (data: HomeUpdateRequest) => {
     method: 'POST',
     data,
   });
-}
+};
 
 export const deleteHome = (id: number) => {
   return request<Home>({
@@ -60,4 +60,4 @@ export const deleteHome = (id: number) => {
       id,
     },
   });
-}
+};

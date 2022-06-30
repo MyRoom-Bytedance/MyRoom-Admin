@@ -3,6 +3,7 @@ import { getHomeList, createHome, updateHome, deleteHome } from 'service/home';
 import { Row, Col, Button, Table, Modal, Form, Input, message } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import type { FormInstance } from 'antd/es/form';
+import UploadImg from 'components/UploadImg';
 const FormItem = Form.Item;
 
 // TODO: 上传图片
@@ -19,13 +20,13 @@ export function Home() {
       size: 0,
     });
     setHomeList(res.data);
-  }
+  };
 
   const deleteHomeById = async (id: number) => {
     await deleteHome(id);
     message.success('操作成功');
     getHome();
-  }
+  };
 
   const submitHome = async () => {
     const newHome = await formRef.current!.validateFields();
@@ -52,7 +53,7 @@ export function Home() {
     message.success('操作成功');
     setModalVisible(false);
     getHome();
-  }
+  };
 
   useEffect(() => {
     getHome();
@@ -70,10 +71,10 @@ export function Home() {
     },
     {
       title: '房源图片',
-      dataIndex: 'listing_image',
+      dataIndex: 'image',
       render: (url: string) => {
-        return <img src={url} style={{ width: '100px' }} alt="暂无图片" />
-      }
+        return <img src={url} style={{ width: '100px' }} alt="暂无图片" />;
+      },
     },
     {
       title: '房源价格',
@@ -84,7 +85,7 @@ export function Home() {
       dataIndex: 'createdAt',
       render: (time: string) => {
         return new Date(time).toLocaleString();
-      }
+      },
     },
     {
       title: '操作',
@@ -100,31 +101,32 @@ export function Home() {
             >
               编辑
             </Button>
-            <Button
-              type="link"
-              danger
-              onClick={() => deleteHomeById(record.id)}
-            >
+            <Button type="link" danger onClick={() => deleteHomeById(record.id)}>
               删除
             </Button>
           </>
-        )
-      }
+        );
+      },
     },
   ];
 
   return (
     <>
-      <Row justify='end'>
-          <Button type='primary' size='large' onClick={() => { setHome(null); setModalVisible(true); }}>新增</Button>
+      <Row justify="end">
+        <Button
+          type="primary"
+          size="large"
+          onClick={() => {
+            setHome(null);
+            setModalVisible(true);
+          }}
+        >
+          新增
+        </Button>
       </Row>
-      <Row style={{ marginTop: 10, }}>
+      <Row style={{ marginTop: 10 }}>
         <Col span={24}>
-          <Table
-            rowKey={'id'}
-            columns={tableColumns}
-            dataSource={homeList}
-          />
+          <Table rowKey={'id'} columns={tableColumns} dataSource={homeList} />
         </Col>
       </Row>
       <Modal
@@ -133,10 +135,7 @@ export function Home() {
         onOk={() => submitHome()}
         onCancel={() => setModalVisible(false)}
       >
-        <Form
-          ref={formRef}
-          key={home === null ? 'create' : home.id}
-        >
+        <Form ref={formRef} key={home === null ? 'create' : home.id}>
           <FormItem
             label="项目名称"
             name="listing_name"
@@ -148,7 +147,10 @@ export function Home() {
           <FormItem
             label="价格"
             name="pricing"
-            rules={[{ required: true, message: '请输入价格' }, { pattern: /^\d+$/, message: '请输入数字' }]}
+            rules={[
+              { required: true, message: '请输入价格' },
+              { pattern: /^\d+$/, message: '请输入数字' },
+            ]}
             initialValue={home?.pricing}
           >
             <Input />
@@ -156,7 +158,10 @@ export function Home() {
           <FormItem
             label="室"
             name="floor_plan_room"
-            rules={[{ required: true, message: '请输入房间数' }, { pattern: /^\d+$/, message: '请输入数字' }]}
+            rules={[
+              { required: true, message: '请输入房间数' },
+              { pattern: /^\d+$/, message: '请输入数字' },
+            ]}
             initialValue={home?.floor_plan_room}
           >
             <Input />
@@ -164,7 +169,10 @@ export function Home() {
           <FormItem
             label="厅"
             name="floor_plan_hall"
-            rules={[{ required: true, message: '请输入房间数' }, { pattern: /^\d+$/, message: '请输入数字' }]}
+            rules={[
+              { required: true, message: '请输入房间数' },
+              { pattern: /^\d+$/, message: '请输入数字' },
+            ]}
             initialValue={home?.floor_plan_hall}
           >
             <Input />
@@ -172,7 +180,10 @@ export function Home() {
           <FormItem
             label="面积（平方米）"
             name="squaremeter"
-            rules={[{ required: true, message: '请输入面积' }, { pattern: /^\d+$/, message: '请输入数字' }]}
+            rules={[
+              { required: true, message: '请输入面积' },
+              { pattern: /^\d+$/, message: '请输入数字' },
+            ]}
             initialValue={home?.squaremeter}
           >
             <Input />
@@ -180,17 +191,22 @@ export function Home() {
           <FormItem
             label="楼层"
             name="total_floor"
-            rules={[{ required: true, message: '请输入楼层' }, { pattern: /^\d+$/, message: '请输入数字' }]}
+            rules={[
+              { required: true, message: '请输入楼层' },
+              { pattern: /^\d+$/, message: '请输入数字' },
+            ]}
             initialValue={home?.total_floor}
           >
             <Input />
           </FormItem>
-          <FormItem
-            label="简介"
-            name="description"
-            initialValue={home?.description}
-          >
+          <FormItem label="简介" name="description" initialValue={home?.description}>
             <Input />
+          </FormItem>
+          <FormItem label="图片链接" name="image">
+            <Input />
+          </FormItem>
+          <FormItem label="点击这里上传">
+            <UploadImg uploadHeadImg={(image) => formRef.current!.setFieldsValue({ image: image })} />
           </FormItem>
         </Form>
       </Modal>
