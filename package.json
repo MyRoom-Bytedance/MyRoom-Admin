@@ -15,7 +15,6 @@
     "@types/react-dom": "^18.0.3",
     "ali-oss": "^6.17.1",
     "antd": "^4.20.2",
-    "antd-img-crop": "^4.2.3",
     "axios": "^0.27.2",
     "nprogress": "^0.2.0",
     "prettier": "^2.7.1",
