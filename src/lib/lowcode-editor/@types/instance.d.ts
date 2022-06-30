@@ -21,12 +21,12 @@ import { CSSProperties } from 'styled-components';
 
 // 若使用远程组件则为 <DynamicComponent name='Text'>Remote Component</DynamicComponent>这样
 interface InstanceType {
-    id: string; // uuid 唯一
-    name: string; // 实例名称  可编辑
-    type: ComponentType; // 组件类型 也即远程组件的类型 一一对应，不可更改
-    positionType?: 'absolute' | 'relative' | 'unset'; // 不存在则默认为相对于画布的absolute
-    position: PositionProps; // 位置属性
-    body: null | string; // 实例的body
-    styles: CSSProperties; // 实例的样式
-    [propName: string]: any; // 其他HTML属性
+  id: string; // uuid 唯一
+  name: string; // 实例名称  可编辑
+  type: ComponentType; // 组件类型 也即远程组件的类型 一一对应，不可更改
+  positionType?: 'absolute' | 'relative' | 'unset'; // 不存在则默认为相对于画布的absolute
+  position: PositionProps; // 位置属性
+  body: null | string; // 实例的body
+  styles: CSSProperties; // 实例的样式
+  [propName: string]: any; // 其他HTML属性
 }

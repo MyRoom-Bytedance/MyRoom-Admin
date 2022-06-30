@@ -2,7 +2,9 @@
  * 工程JSON定义
  */
 type Project = {
-    id: string,   // UUID
-    name: string,
-    components: Component[]
-}
+  id: number;
+  name: string;
+  global?: any;
+  components: Component[];
+  [key: string]: any;
+};
