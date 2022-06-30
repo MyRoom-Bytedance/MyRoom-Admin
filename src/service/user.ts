@@ -1,4 +1,3 @@
-import { type } from 'os';
 import request from './axios';
 
 /**

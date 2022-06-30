@@ -1,13 +1,11 @@
-import { LoginFormPage, ProFormText, ProFormCheckbox } from '@ant-design/pro-form';
+import { LoginFormPage, ProFormText } from '@ant-design/pro-form';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { message } from 'antd';
 import React from 'react';
 import 'antd/dist/antd.min.css';
 import '@ant-design/pro-form/dist/form.css';
 import styled from 'styled-components';
-import { setUserCache } from 'redux/userSlice';
 import { useNavigate } from 'react-router';
-import { useDispatch } from 'react-redux';
 import { UserLogin, UserRegister } from 'service/user';
 
 /**
@@ -15,7 +13,6 @@ import { UserLogin, UserRegister } from 'service/user';
  */
 export const Login = React.memo(() => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [isRegister, setRegister] = React.useState(false);
 
   const handleLogin = async (form: Record<string, any>) => {
@@ -24,13 +21,7 @@ export const Login = React.memo(() => {
         username: form.username,
         password: form.password,
       });
-      // 使用redux记录 userInfo （token在userInfo中）
-      dispatch(
-        setUserCache({
-          token: res.token,
-          nickname: form.username,
-        })
-      );
+
       message.success('登陆成功');
       localStorage.setItem('access_token', res.token);
       navigate('/admin');
@@ -95,16 +86,11 @@ export const Login = React.memo(() => {
             marginBottom: 24,
           }}
         >
-          <div style={{ display: isRegister ? 'none' : 'initial' }}>
-            <ProFormCheckbox noStyle name="autoLogin">
-              自动登录
-            </ProFormCheckbox>
-          </div>
           <span
             style={{
               float: 'right',
               cursor: 'pointer',
-              marginBottom: isRegister ? 24 : 0,
+              marginBottom: 24,
             }}
             onClick={() => {
               setRegister(!isRegister);
