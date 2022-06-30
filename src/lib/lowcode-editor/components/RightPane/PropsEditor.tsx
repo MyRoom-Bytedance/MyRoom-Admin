@@ -2,6 +2,7 @@ import React from 'react';
 import { COMPONENT_TYPE } from '../../const/ComponentData';
 import { Button } from 'antd';
 import './style.css';
+import UploadImg from 'components/UploadImg';
 
 type EditorProps = {
   projectData: Project;
@@ -200,6 +201,7 @@ export function PropsEditor({
             type="text"
           ></input>
         </div>
+        <UploadImg uploadHeadImg={ (image) => inputDomObject[4].value = image } />
         <div className="flex-row-space-between text-config-item">
           <div>层叠（越大越靠上）:</div>
           <input
@@ -234,7 +236,7 @@ export function PropsEditor({
     const inputDomObject: Array<HTMLInputElement> = [];
     return (
       <div key={rightPaneElementId}>
-        <h3>图片元素</h3>
+        <h3>房源卡片</h3>
         <br />
         <div className="flex-row-space-between text-config-item">
           <div>宽度:</div>

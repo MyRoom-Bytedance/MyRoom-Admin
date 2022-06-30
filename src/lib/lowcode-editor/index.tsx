@@ -14,9 +14,10 @@ import LeftPane from './components/LeftPane';
 import MidPane from './components/MidPane';
 import { PropsEditor } from './components/RightPane/PropsEditor';
 import { COMPONENT_TYPE } from './const/ComponentData';
+import { createProject, updateProject, getProjectById } from 'service/project';
+import { Button, Input, message } from 'antd';
 
 export const LowcodeEditor = React.memo(() => {
-  const id = Number(useParams().id);
   const [projectData, setProjectData] = useState({
     id: 0,
     name: 'new project',
@@ -27,14 +28,38 @@ export const LowcodeEditor = React.memo(() => {
   });
   const [rightPaneElementId, setRightPaneElementId] = useState(0);
   const [rightPaneElementType, setRightPaneElementType] = useState<COMPONENT_TYPE | null>(null);
+  const [projectName, setProjectName] = useState('new project');
+  const [id, setId] = useState(Number(useParams().id));
   const containerRef = useRef<HTMLDivElement>(null);
   
-  useEffect(() => {
+  const getProject = async (id: number) => {
+    const res = await getProjectById(id);
+    setProjectData(JSON.parse(res.data.content));
+    setProjectName(res.data.name);
+  };
+
+  const saveProject = async () => {
     if (id === 0) {
-      
+      const res = await createProject({
+        name: projectName,
+        content: JSON.stringify(projectData),
+      });
+      setId(res.data.id);
+      message.success('保存成功');
+    } else {
+      await updateProject({
+        id: id,
+        name: projectName,
+        content: JSON.stringify(projectData),
+      });
+      message.success('保存成功');
     }
+  }
+
+  useEffect(() => {
+    id && getProject(id);
     // eslint-disable-next-line
-  }, []);
+  }, [id]);
 
   return (
     // DndProvider作用域局限在LowcodeEditor中
@@ -50,9 +75,26 @@ export const LowcodeEditor = React.memo(() => {
         <div
           style={{
             width: '25%',
+            display: 'flex',
+            flexDirection: 'column',
           }}
         >
           <h1>Project Material</h1>
+          <div>
+            <span>项目名称：</span>
+            <Input
+              value={projectName}
+              onChange={ (e) => setProjectName(e.target.value)} 
+              style={{ margin: '10px 0' }}
+            />
+          </div>
+          <Button
+            type="primary"
+            onClick={saveProject}
+            style={{ margin: '10px 0' }}
+          >
+            保存
+          </Button>
           <LeftPane />
         </div>
         <div

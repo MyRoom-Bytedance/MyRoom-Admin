@@ -85,7 +85,7 @@ const UploadImg = (props: IProps) => {
   };
 
   return (
-    <ImgCrop aspect={3 / 2} zoom rotate>
+    <ImgCrop zoom rotate>
       <Upload
         customRequest={handleUpload}
         listType="picture-card"

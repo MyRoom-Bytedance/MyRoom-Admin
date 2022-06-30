@@ -104,7 +104,7 @@ export default function GenernateProject({
   setRightPanelElementId: Function,
   setRightPaneElementType: Function
 }) {
-  console.log("genernateProject", data);
+  // console.log("genernateProject", data);
   return (
     <div
       style={{

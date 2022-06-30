@@ -36,8 +36,9 @@ export const updateProject = (data: ProjectUpdateRequest) => {
 
 export const getProjectById = (id: number) => {
   return request<Project>({
-    url: `/project/details/${id}`,
+    url: `/project/details`,
     method: 'GET',
+    params: { id },
   });
 };
 

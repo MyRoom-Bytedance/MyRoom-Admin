@@ -6,4 +6,5 @@ type Project = {
   name: string;
   global?: any;
   components: Component[];
+  [key: string]: any;
 };
