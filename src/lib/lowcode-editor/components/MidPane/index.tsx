@@ -42,6 +42,21 @@ export default function MidPane({
   setRightPanelElementId,
   setRightPaneElementType
 }: MidPineProps) {
+  const getItemById = (id: number) => {
+    return projectData.components.find((item) => item.id === id);
+  };
+
+  const changeElementData = (id: number, key: string, newData: any) => {
+    const element = getItemById(id);
+    if (element) {
+      element.props[key] = newData;
+      setProjectData({
+        ...projectData,
+        components: projectData.components
+      });
+    }
+  }
+
   const [, drop] = useDrop(() => ({
     accept: Object.values(COMPONENT_TYPE),
     drop: (_, monitor) => {
@@ -50,20 +65,30 @@ export default function MidPane({
       const [currentX, currentY] = [x - containerRef.current!.offsetLeft, y - containerRef.current!.offsetTop - 22];
       let item = monitor.getItem<Component>();
       if (item.type === COMPONENT_TYPE.Background) {
+        setRightPaneElementType(COMPONENT_TYPE.Background);
         return;
       }
-      setProjectData({
-        ...projectData,
-        components: [...projectData.components, {
-          id: projectData.components.reduce((pre, item) => Math.max(item.id, pre), 0) + 1,
-          type: item.type,
-          props: {
-            ...item.props,
-            top: currentY,
-            left: currentX,
-          },
-        }],
-      });
+      if (item.isDroped) {
+        changeElementData(item.id, 'top', currentY);
+        changeElementData(item.id, 'left', currentX);
+      }
+      if (item.type === COMPONENT_TYPE.Text || item.type === COMPONENT_TYPE.Image || item.type === COMPONENT_TYPE.HouseCard) {
+        const newId = projectData.components.reduce((pre, item) => Math.max(item.id, pre), 0) + 1;
+        setProjectData({
+          ...projectData,
+          components: [...projectData.components, {
+            id: newId,
+            type: item.type,
+            props: {
+              ...item.props,
+              top: currentY,
+              left: currentX,
+            },
+          }],
+        });
+        setRightPanelElementId(newId);
+        setRightPaneElementType(item.type);
+      }
     }
   }));
   return (
@@ -71,6 +96,8 @@ export default function MidPane({
       <Preview ref={drop}>
         <GenernateProject
           data={projectData}
+          setRightPaneElementType={setRightPaneElementType}
+          setRightPanelElementId={setRightPanelElementId}
         />
       </Preview>
     </MidPaneContainer>

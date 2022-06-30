@@ -1,61 +1,86 @@
 import React, { useEffect } from "react";
 import { materialList, TEXT_PROPS, IMAGE_PROPS, HOUSE_PROPS, COMPONENT_TYPE } from 'lib/lowcode-editor/const/ComponentData';
+import { useDrag } from "react-dnd";
 const materials = [...materialList.common, ...materialList.layout, ...materialList.house];
 
-export default function GenernateProject({ data }: { data: Project }) {
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+function Text({ component, setRightPanelElementId, setRightPaneElementType }: any) {
+  const [, drag] = useDrag(() => ({
+    type: COMPONENT_TYPE.Text_Droped,
+    item: { id: component.id, isDroped: true },
+  }));
+  const style = component.props;
   return (
-    <div
+    <span
+      ref={drag}
+      key={component.id}
       style={{
-        height: "100%",
-        width: "100%",
-        position: "relative",
-        backgroundColor: data.global?.backgroundColor || "#fff",
+        ...style,
+        position: "absolute",
+      }}
+      onClick={() => {
+        setRightPanelElementId(component.id);
+        setRightPaneElementType(component.type);
       }}
     >
-      {data.components.map((component) => {
-        if (component.type === COMPONENT_TYPE.Text || component.type === COMPONENT_TYPE.Text_Droped) {
-          const style = component.props;
-          return (
-            <span
-              key={component.id}
-              style={{
-                ...style,
-                position: "absolute",
-              }}
-            >
-              {component.props.innerText}
-            </span>
-          );
-        } else if (component.type === COMPONENT_TYPE.Image || component.type === COMPONENT_TYPE.Image_Droped) {
-          const style = component.props;
-          return (
-            <img
-              key={component.id}
-              src={component.props.src}
-              style={{
-                ...style,
-                position: "absolute",
-              }}
-            />
-          );
-        } else if (component.type === COMPONENT_TYPE.HouseCard || component.type === COMPONENT_TYPE.HouseCard_Droped) {
-          return <HomeCard key={component.id} props={component.props} />;
-        } else {
-          return <></>;
-        }
-      })}
-    </div>
+      {component.props.innerText}
+    </span>
   );
 }
 
-function HomeCard({ props }: { props: any }) {
-  // console.log("home", props);
+function Image({ component, setRightPanelElementId, setRightPaneElementType }: any) {
+  const [, drag] = useDrag(() => ({
+    type: COMPONENT_TYPE.Text_Droped,
+    item: { id: component.id, isDroped: true },
+  }));
+  const style = component.props;
   return (
-    props.homeId === null ? (<div style={{ top: props.top, left: props.left, }} >请指定房源id</div>) : (
+    <img
+      ref={drag}
+      key={component.id}
+      src={component.props.src}
+      style={{
+        ...style,
+        position: "absolute",
+      }}
+      onClick={() => {
+        setRightPanelElementId(component.id);
+        setRightPaneElementType(component.type);
+      }}
+    />
+  );
+}
+
+function HomeCard({
+  props,
+  setRightPanelElementId,
+  setRightPaneElementType,
+  id,
+  type
+}: {
+  props: any,
+  setRightPanelElementId: Function,
+  setRightPaneElementType: Function,
+  id: number,
+  type: COMPONENT_TYPE
+}) {
+  // console.log("home", props);
+  const [, drag] = useDrag(() => ({
+    type: COMPONENT_TYPE.Text_Droped,
+    item: { id, isDroped: true },
+  }));
+  return (
+    props.homeId === null ? (
       <div
+        ref={drag}
+        style={{ position: "absolute", top: props.top, left: props.left, }} 
+        onClick={() => {
+          setRightPanelElementId(id);
+          setRightPaneElementType(type);
+        }}
+      >请指定房源id</div>
+    ) : (
+      <div
+        ref={drag}
         style={{
           position: "absolute",
           top: props.top,
@@ -67,5 +92,48 @@ function HomeCard({ props }: { props: any }) {
         qwq
       </div>
     )
+  );
+}
+
+export default function GenernateProject({
+  data,
+  setRightPanelElementId,
+  setRightPaneElementType
+}: { 
+  data: Project, 
+  setRightPanelElementId: Function,
+  setRightPaneElementType: Function
+}) {
+  
+  return (
+    <div
+      style={{
+        height: "100%",
+        width: "100%",
+        position: "relative",
+        backgroundColor: data.global?.backgroundColor || "#fff",
+      }}
+    >
+      {data.components.map((component) => {
+        if (component.type === COMPONENT_TYPE.Text || component.type === COMPONENT_TYPE.Text_Droped) {
+          return <Text component={component} setRightPanelElementId={setRightPanelElementId} setRightPaneElementType={setRightPaneElementType} key={component.id} />;
+        } else if (component.type === COMPONENT_TYPE.Image || component.type === COMPONENT_TYPE.Image_Droped) {
+          return <Image component={component} setRightPanelElementId={setRightPanelElementId} setRightPaneElementType={setRightPaneElementType} key={component.id} />;
+        } else if (component.type === COMPONENT_TYPE.HouseCard || component.type === COMPONENT_TYPE.HouseCard_Droped) {
+          return (
+            <HomeCard
+              key={component.id}
+              props={component.props}
+              id={component.id}
+              type={component.type}
+              setRightPaneElementType={setRightPaneElementType}
+              setRightPanelElementId={setRightPanelElementId}
+            />
+          );
+        } else {
+          return <></>;
+        }
+      })}
+    </div>
   );
 }

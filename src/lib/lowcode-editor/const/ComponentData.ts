@@ -28,7 +28,7 @@ export const materialList: {
       type: COMPONENT_TYPE.Text,
       props: {
         innerText: '文本组件',
-        color: '#fff',
+        color: '#000',
         fontSize: '14px',
         fontWeight: 'normal',
         height: '50px',
